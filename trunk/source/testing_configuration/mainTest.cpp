@@ -18,7 +18,7 @@ int main()
 
 	// Load the sprite image from a file
 	sf::Image Image;
-	if (!Image.LoadFromFile("../../resources/screenshot.jpg"))
+	if (!Image.LoadFromFile("../../resources/rocky_rules.jpg"))
 		return EXIT_FAILURE;
 
 	// Create the sprite
