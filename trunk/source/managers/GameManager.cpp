@@ -13,10 +13,10 @@
 //
 // Headers
 //
-#include "managers/GameManager.h"
+#include "GameManager.h"
 #include <cassert>
 #include <sstream>
-//#include "MainMenuState.h"
+#include "game_states/MainMenuState.h"
 #include "game_states/StateMachine.h"
 
 
@@ -30,11 +30,11 @@ GameManager::GameManager() :  m_pStateMachine(0), m_pScreen(0), m_pFont(0), m_pF
 	m_pStateMachine = new StateMachine(m_pScreen);
 
 	//Initial state
-	//m_pStateMachine->ChangeState(MainMenuState::Instance());
+	m_pStateMachine->ChangeState(MainMenuState::Instance());
 
 	// FPS
 	m_pFont = new sf::Font();
-	bool correctLoading = m_pFont->LoadFromFile("resources/fonts/arial.ttf");
+	bool correctLoading = m_pFont->LoadFromFile("../../resources/fonts/calibri.ttf");
 	assert(correctLoading);
 	m_pFpsText = new sf::String("", *m_pFont);
 	m_pFpsText->SetSize(30.0f);
