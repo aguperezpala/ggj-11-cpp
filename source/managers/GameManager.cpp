@@ -113,7 +113,7 @@ void GameManager::Run()
 void GameManager::InitScreen()
 {
 
-	m_pScreen = new sf::RenderWindow(sf::VideoMode(1024, 768, 32), "CaperucitaPlusPlus", sf::Style::Fullscreen | sf::Style::Close);
+	m_pScreen = new sf::RenderWindow(sf::VideoMode::GetDesktopMode(), "CaperucitaPlusPlus", sf::Style::Fullscreen | sf::Style::Close);
 	m_pScreen->ShowMouseCursor(false);
 
 }
