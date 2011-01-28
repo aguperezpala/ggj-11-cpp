@@ -24,26 +24,12 @@
 GameManager::GameManager() :  m_pStateMachine(0), m_pScreen(0), m_pFont(0), m_pFpsText(0)
 {
 
-	m_pScreen = new sf::RenderWindow(sf::VideoMode(1024, 768, 32), "CaperucitaPlusPlus", sf::Style::Fullscreen | sf::Style::Close);
-	m_pScreen->ShowMouseCursor(false);
+	InitScreen();
 
-	m_pStateMachine = new StateMachine(m_pScreen);
+	InitStateMachine();
 
-	//Initial state
-	m_pStateMachine->ChangeState(MainMenuState::Instance());
-
-	// FPS
-	m_pFont = new sf::Font();
-	bool correctLoading = m_pFont->LoadFromFile("../../resources/fonts/calibri.ttf");
-	assert(correctLoading);
-	m_pFpsText = new sf::String("", *m_pFont);
-	m_pFpsText->SetSize(30.0f);
-	float xCoord = 10.0f;
-	float yCoord = 10.0f;
-	m_pFpsText->SetPosition(xCoord, yCoord);
-	m_pFpsText->SetStyle(sf::String::Regular);
-	m_pFpsText->SetColor(sf::Color::White);
-	
+	InitText();
+		
 }
 
 
@@ -90,6 +76,9 @@ GameManager::~GameManager()
 void GameManager::Run()
 {
 
+	assert(m_pScreen && "GameManager::Run(): The RenderWindow is NULL");
+	assert(m_pStateMachine && "GameManager::Run(): The StateMachine is NULL");
+
 	// Start game loop
 	while (m_pScreen->IsOpened())
 	{
@@ -121,9 +110,56 @@ void GameManager::Run()
 }
 
 
+void GameManager::InitScreen()
+{
+
+	m_pScreen = new sf::RenderWindow(sf::VideoMode(1024, 768, 32), "CaperucitaPlusPlus", sf::Style::Fullscreen | sf::Style::Close);
+	m_pScreen->ShowMouseCursor(false);
+
+}
+
+
+void GameManager::InitStateMachine()
+{
+
+	m_pStateMachine = new StateMachine(m_pScreen);
+	m_pStateMachine->ChangeState(MainMenuState::Instance());
+
+}
+
+
+void GameManager::InitText()
+{
+
+	InitFont();
+	
+	assert(m_pFont && "GameManager::InitText(): The font is not correctly loaded");
+	
+	m_pFpsText = new sf::String("", *m_pFont);
+	m_pFpsText->SetSize(30.0f);
+	float xCoord = 10.0f;
+	float yCoord = 10.0f;
+	m_pFpsText->SetPosition(xCoord, yCoord);
+	m_pFpsText->SetStyle(sf::String::Regular);
+	m_pFpsText->SetColor(sf::Color::White);
+
+}
+
+
+void GameManager::InitFont()
+{
+
+	m_pFont = new sf::Font();
+	bool correctLoading = m_pFont->LoadFromFile("../../resources/fonts/calibri.ttf");
+
+}
+
+
 void GameManager::DrawFPS()
 {
 	
+	assert(m_pFpsText && " GameManager::DrawFPS(): The text is NULL");
+
 	std::ostringstream oss; 
 	oss << "FPS" << " " << m_FpsManager.GetFPS();
 	m_pFpsText->SetText(oss.str());

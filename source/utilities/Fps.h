@@ -36,7 +36,7 @@ private:
 
 	static const double TIME_LIMIT;
 	
-	int m_Frame; // Current frame
+	int m_CurrentFrame; // Current frame
 
 	int m_Fps; // Current fps
 

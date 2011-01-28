@@ -39,7 +39,11 @@ public:
 	
 private:
 
-	//call this to update the machine
+	void InitScreen();
+	void InitStateMachine();
+	void InitText();
+	void InitFont();
+
 	void DrawFPS();
 
 	StateMachine* m_pStateMachine;
