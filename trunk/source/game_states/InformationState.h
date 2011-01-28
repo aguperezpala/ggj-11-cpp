@@ -8,7 +8,7 @@
 //
 // Desc: Abstract state that provides functionality to states that
 //       will need to show information on the screen like main menu, 
-//       controls, game explanation, etc.
+//       controls, game explanation, credits, etc.
 //
 // Author: Nicolas Bertoa - nicobertoa@gmail.com
 //
@@ -29,7 +29,7 @@ public:
 
 	InformationState();
 
-	virtual ~InformationState();
+	virtual ~InformationState(); 
 
 	//this will execute when the state is entered
 	virtual void Init(sf::RenderWindow* screen);

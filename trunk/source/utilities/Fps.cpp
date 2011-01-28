@@ -24,7 +24,7 @@ const double Fps::TIME_LIMIT = 1.0f;
 Fps::Fps()
 {
 	
-	m_Frame = 0;
+	m_CurrentFrame = 0;
 	m_Fps = 0;
 	m_Clock.Reset();
 
@@ -44,16 +44,16 @@ void Fps::Update()
 	{
 	
 		// Update fps
-		m_Fps = m_Frame;
+		m_Fps = m_CurrentFrame;
 		
 		// Reset the current frame and clock.
-		m_Frame = 0;
+		m_CurrentFrame = 0;
 		m_Clock.Reset();
 
 	}
 
 	else
-		m_Frame++;
+		m_CurrentFrame++;
 
 }
 
