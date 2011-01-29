@@ -66,3 +66,14 @@ bool GameEntity::IsActive() const
 	return m_IsActive;
 
 }
+
+
+const sf::Vector2f& GameEntity::GetCenterCordinates()
+{
+
+	float x = GetPosition().x + GetWidth()/2.0f;
+	float y = GetPosition().y + GetHeight()/2.0f;
+
+	return sf::Vector2f(x,y);
+
+}

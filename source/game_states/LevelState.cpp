@@ -55,9 +55,10 @@ void LevelState::Init(sf::RenderWindow *pScreen)
 	m_MapAnimation = levelFactory.GetMapAnimation();
 
 	InitPlayer();
+	//InitCannon();
 	InitEnvironmentManager();
 	InitScrollingManager();
-
+	
 }
 
 
@@ -140,6 +141,9 @@ void LevelState::InitPlayer()
 }
 
 
+//void LevelState::
+
+
 void LevelState::InitEnvironmentManager()
 {
 
@@ -166,7 +170,7 @@ void LevelState::InitEnvironment()
 	m_pMap2->SetActivation(true);
 
 	// Create environment
-	m_pEnvironment = new Environment("environment1", m_MapsVector, false, 20.0f);
+	m_pEnvironment = new Environment("environment1", m_MapsVector, false, 5555555.0f);
 	
 }
 

@@ -14,6 +14,7 @@
 
 // here are the num of sprites used to representate the 365 degrees
 // The sprite must start in the 0 X Axis and rotate in the opposite clock direction.
+#define M_PI                3.14f
 #define CH_NUM_SPRITES		36
 #define CH_DELTA_ANGLE		(2*M_PI/CH_NUM_SPRITES)
 
@@ -25,7 +26,7 @@ namespace CannonHelper {
 int getAnimationIndex(const sf::Vector2<int> &mPos, const sf::Vector2<float> &cPos);
 
 
-/* Functio used to get the vector direction betwen the cannon and the mousePosition
+/* Functio used to get the vector direction between the cannon and the mousePosition
  * The vector returned it is normalized to 1 */
 sf::Vector2f getVectoriDirection(const sf::Vector2<float> &cannonPos,
 		const sf::Vector2<int> &mousePos);

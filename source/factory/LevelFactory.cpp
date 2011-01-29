@@ -141,8 +141,8 @@ Anim LevelFactory::GetPlayerDownAnimation()
 Anim LevelFactory::GetPlayerWeaponAnimation()
 {
 
-	m_ImgManager->Load("../../resources/images/truck/cannon.png");
-	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/cannon.png"], 180.0f, 115.0f, 1);
+	m_ImgManager->Load("../../resources/images/truck/cannon03.png");
+	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/cannon03.png"], 180.0f, 115.0f, 1);
 
 }
 
