@@ -35,7 +35,7 @@ void ScrollingManager::insertEntity(GameEntity *ent)
 ///////////////////////////////////////////////////////////////////////////////
 void ScrollingManager::removeEntity(int entityID)
 {
-	ASSERT(existGameEntity(ent->GetId()));
+	ASSERT(existGameEntity(entityID));
 
 	mScrollableEntities.erase(entityID);
 
