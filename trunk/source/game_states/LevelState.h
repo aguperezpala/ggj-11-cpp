@@ -18,12 +18,19 @@
 //
 #include "State.h"
 #include "ImageManager.h"
+#include "anim.hpp"
+
+
+using namespace sftools;
 
 
 //
 // Forward declarations
 //
 class StateMachine;
+class GameEntity;
+class Environment;
+class EnvironmentManager;
 
 
 class LevelState : public State
@@ -43,13 +50,33 @@ private:
 
 	LevelState();
 
+	void InitPlayer();
+
+	void CheckInput();
+
+	void InitEnvironmentManager();
+	void InitEnvironment();
+
 	sf::RenderWindow* m_pScreen;
 
 	ImageManager m_ImgManager;
 
+	std::map<std::string, Anim> m_PlayerAnimations;
+	std::map<std::string, Anim> m_AffectablesAnimation;
+	std::map<std::string, Anim> m_AffectorsAnimation;
+	std::map<std::string, Anim> m_MapAnimation;
+
+	GameEntity* m_pPlayer;
+
+	Environment* m_pEnvironment;
+
+	std::vector<GameEntity*> m_MapsVector;
+	GameEntity* m_pMap1;
+	GameEntity* m_pMap2;
+
+	EnvironmentManager* m_pEnvironmentManager;
 
 };
-
 
 
 #endif // LEVEL_H

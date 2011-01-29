@@ -22,6 +22,9 @@
 #include "anim.hpp"
 
 
+using namespace sftools;
+
+
 //
 // Forward declarations
 //
@@ -39,10 +42,17 @@ public:
 	std::map<std::string, Anim> GetPlayerAnimations();
 	std::map<std::string, Anim> GetAffectablesAnimation();
 	std::map<std::string, Anim> GetAffectorsAnimation();
-	Anim GetMapAnimation();
+	std::map<std::string, Anim> GetMapAnimation();
 
 
 private:
+
+	Anim GetAnimFromImage(const sf::Image& img, float width, float height, int howMany);
+
+	Anim GetPlayerStraightAnimation();
+	Anim GetPlayerUpAnimation();
+	Anim GetPlayerDownAnimation();
+	Anim GetPlayerWeaponAnimation();
 
 	ImageManager* m_ImgManager;
 
