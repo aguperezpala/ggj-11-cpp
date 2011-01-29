@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////////////////////
 //
-// File: main_testScrollingManager.cpp
+// File: main_testLogicManager.cpp
 //
-// Desc: Main entry point to test the GameEntity class functionality.
+// Desc: Main file to test the LogicManager class
 //
 //
 //
@@ -12,6 +12,8 @@
 //
 // Headers
 //
+#include "LogicManager.h"
+#include "ScrollingManager.h"
 #include "GameEntity.h"
 #include "ScrollingManager.h"
 #include <iostream>
@@ -37,10 +39,10 @@ Anim GetAnimFromImage(const sf::Image& img, float height, float width, int howMa
 
 void UpdateEntity(GameEntity& entity)
 {
-	
+
 	entity.Update();
 	entity.Play(); // In case of not currently playing.
-	
+
 }
 
 
@@ -59,12 +61,27 @@ int main()
 
 	Anim anim = GetAnimFromImage(img, 146.0f, 146.0f, 18);
 
-	GameEntity gameEntity(anim, 0.03f);
-	gameEntity.SetPosition(900.0f, 500.0f);
+	GameEntity gameEntity1(anim, 0.03f);
+	GameEntity gameEntity2(anim, 0.03f);
+	GameEntity gameEntity3(anim, 0.03f);
 
-	ScrollingManager::getInstance()->insertEntity(&gameEntity);
+	ScrollingManager::getInstance()->insertEntity(&gameEntity1);
+	ScrollingManager::getInstance()->insertEntity(&gameEntity2);
+	ScrollingManager::getInstance()->insertEntity(&gameEntity3);
 	ScrollingManager::getInstance()->setVelocity(-200.0f);
 	ScrollingManager::getInstance()->setActive(true);
+
+	LogicManager logicManager(window.GetHeight(), window.GetWidth());
+	logicManager.AddAffectable(&gameEntity1);
+	logicManager.AddAffectable(&gameEntity2);
+	logicManager.AddAffectable(&gameEntity3);
+
+	gameEntity1.Play();
+	gameEntity1.SetLoop(true);
+	gameEntity2.Play();
+	gameEntity2.SetLoop(true);
+	gameEntity3.Play();
+	gameEntity3.SetLoop(true);
 
 	unsigned int Seed = 10;
 	sf::Randomizer::SetSeed(Seed);
@@ -95,16 +112,28 @@ int main()
 		}
 
 
-		UpdateEntity(gameEntity);
-
-
-		int Random = sf::Randomizer::Random(-600, 600);
-		ScrollingManager::getInstance()->setVelocity(float(Random));
 		ScrollingManager::getInstance()->update(window.GetFrameTime());
+		logicManager.Update(window.GetFrameTime());
 
-			// Draw everything.
+
+		// Draw everything.
 		window.Clear(); 
-		window.Draw(gameEntity);
+		if(gameEntity1.IsActive())
+			window.Draw(gameEntity1);
+		else if(gameEntity1.GetPosition().x + gameEntity1.GetWidth() < 0.0f)
+			gameEntity1.SetActivation(false);
+
+		if(gameEntity2.IsActive())
+			window.Draw(gameEntity2);
+		else if(gameEntity2.GetPosition().x + gameEntity2.GetWidth() < 0.0f)
+			gameEntity2.SetActivation(false);
+			
+		if(gameEntity3.IsActive())
+			window.Draw(gameEntity3);
+		else if(gameEntity3.GetPosition().x + gameEntity3.GetWidth() < 0.0f)
+			gameEntity3.SetActivation(false);
+
+
 		window.Display();
 
 	}

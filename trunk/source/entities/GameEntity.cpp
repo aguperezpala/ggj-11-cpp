@@ -30,7 +30,7 @@ GameEntity::GameEntity(float time, bool play, bool loop) : Animated(time, play, 
 
 
 // Default constructor
-GameEntity::GameEntity(const Anim& anim, float time, bool play, bool loop) : Animated(anim, time, play, loop), m_Id(m_GlobalId)
+GameEntity::GameEntity(const Anim& anim, float time, bool play, bool loop) : Animated(anim, time, play, loop), m_Id(m_GlobalId), m_IsActive(false)
 {
 
 	// We must increment the global Id to avoid Id conflicts.
