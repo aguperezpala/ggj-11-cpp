@@ -116,7 +116,7 @@ int main()
 	if (!cannon.LoadFromFile("../../resources/images/truck/cannon.png"))
 		return EXIT_FAILURE;
 
-	Anim animCannon = GetAnimFromImage(cannon, 180.0f, 115.0f, 18);
+	Anim animCannon = GetAnimFromImage(cannon, 180.0f, 115.0f, 36);
 
 	GameEntity cannonEntity(animCannon, 0.03f);
 	cannonEntity.Play();
