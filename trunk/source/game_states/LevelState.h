@@ -56,6 +56,7 @@ private:
 
 	void InitEnvironmentManager();
 	void InitEnvironment();
+	void InitScrollingManager();
 
 	sf::RenderWindow* m_pScreen;
 
