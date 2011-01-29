@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////
 //
-// File: main_testGameEntity.cpp
+// File: main_testScrollingManager.cpp
 //
 // Desc: Main entry point to test the GameEntity class functionality.
 //
@@ -13,6 +13,7 @@
 // Headers
 //
 #include "../entities/GameEntity.h"
+#include "../managers/GameEntity.h"
 #include <iostream>
 
 
@@ -34,37 +35,6 @@ Anim GetAnimFromImage(const sf::Image& img, float height, float width, int howMa
 }
 
 
-
-void UpdateEntity(GameEntity& entity, const sf::Input& input)
-{
-	entity.Update();
-
-	if (input.IsKeyDown(sf::Key::Up))
-		entity.Play(); // In case of not currently playing.
-
-	else
-		entity.Pause();
-
-}
-
-void UpdateEntityMouse(GameEntity& entity, const sf::Input& input)
-{
-	entity.Update();
-
-
-
-
-	//if (input.IsKeyDown(sf::Key::Up))
-	//	entity.Play(); // In case of not currently playing.
-
-	//else
-	//	entity.Pause();
-
-
-
-}
-
-
 //
 // Main
 //
@@ -76,13 +46,7 @@ int main()
 	// Loading a picture with anims.
 	sf::Image img;
 	if (!img.LoadFromFile("../../resources/images/truck/canon.png"))
-	{
-	
-		std::cerr << "Error : cannot load character.png.\n";
 		return EXIT_FAILURE;
-
-	}
-	
 
 	Anim anim = GetAnimFromImage(img, 146.0f, 146.0f, 18);
 
@@ -94,16 +58,16 @@ int main()
 	bool running = true;
 	while (running)
 	{
-		
+
 		// Events loop.
 		while (window.GetEvent(event))
 		{
-			
+
 			// Here we just deal with close event.
 			// Moving is handle by sf::Input.
 			switch (event.Type)
 			{
-			
+
 			case sf::Event::Closed:
 				running = false;
 				break;
@@ -111,7 +75,7 @@ int main()
 			default:
 				break;
 			}
-		
+
 		}
 
 		// Make all updates.
