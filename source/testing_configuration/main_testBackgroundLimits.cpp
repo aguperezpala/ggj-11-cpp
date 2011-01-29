@@ -34,7 +34,7 @@ Anim GetAnimFromImage(const sf::Image& img, float width, float height, int howMa
 }
 
 
-void UpdateEntity(GameEntity& entity, const sf::Input& input, float frameTime)
+void UpdateEntity(GameEntity& entity, GameEntity& entity2, const sf::Input& input, float frameTime)
 {
 
 	entity.Update();
@@ -45,7 +45,24 @@ void UpdateEntity(GameEntity& entity, const sf::Input& input, float frameTime)
 	else if (input.IsKeyDown(sf::Key::Down))
 		entity.Move(0.0f, 100.0f * frameTime);
 
+	else if(input.IsKeyDown(sf::Key::Left))
+		entity.Move(-100.0f * frameTime, 0.0f);
+
+	else if (input.IsKeyDown(sf::Key::Right))
+		entity.Move(100.0f * frameTime, 0.0f);
+
+
+	if(input.IsKeyDown(sf::Key::S))
+		entity2.Play();
+	else
+		entity2.Pause();
+
+	entity2.SetX(entity.GetPosition().x);
+	entity2.SetY(entity.GetPosition().y);
+
+
 }
+
 
 
 //
@@ -71,7 +88,7 @@ int main()
 
 	// Loading a picture with anims.
 	sf::Image map;
-	if (!map.LoadFromFile("../../resources/images/background/bk32.png"))
+	if (!map.LoadFromFile("../../resources/images/background/bk1024.png"))
 		return EXIT_FAILURE;
 
 	Anim animMap = GetAnimFromImage(map, 1024.0f, 768.0f, 1);
@@ -81,6 +98,19 @@ int main()
 	mapEntity.SetLoop(false);
 	mapEntity.SetX(0.0f);
 	mapEntity.SetY(0.0f);
+
+	// Loading a picture with anims.
+	sf::Image cannon;
+	if (!cannon.LoadFromFile("../../resources/images/truck/cannon.png"))
+		return EXIT_FAILURE;
+
+	Anim animCannon = GetAnimFromImage(cannon, 180.0f, 115.0f, 1);
+
+	GameEntity cannonEntity(animCannon, 0.03f);
+	cannonEntity.Stop();
+	cannonEntity.SetLoop(false);
+	cannonEntity.SetX(0.0f);
+	cannonEntity.SetY(0.0f);
 	
 
 	unsigned int Seed = 10;
@@ -114,12 +144,11 @@ int main()
 
 		// Draw everything.
 		window.Clear(); 
-		UpdateEntity(gameEntity1, window.GetInput(), window.GetFrameTime());
+		UpdateEntity(gameEntity1, cannonEntity, window.GetInput(), window.GetFrameTime());
 		window.Draw(mapEntity);
 		window.Draw(gameEntity1);
+		window.Draw(cannonEntity);
 		window.Display();
-
-		std::cout << "Y = " << gameEntity1.GetPosition().y << std::endl;
 
 	}
 
