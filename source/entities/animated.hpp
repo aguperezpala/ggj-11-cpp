@@ -178,6 +178,9 @@ class Animated : public sf::Drawable
         */
         void Update();
 
+		float GetWidth() const;
+		float GetHeight() const;
+
     protected :
         /*!
          \brief \see sf::Drawable::Render .

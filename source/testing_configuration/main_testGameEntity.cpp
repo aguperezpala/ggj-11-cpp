@@ -47,22 +47,6 @@ void UpdateEntity(GameEntity& entity, const sf::Input& input)
 
 }
 
-void UpdateEntityMouse(GameEntity& entity, const sf::Input& input)
-{
-	entity.Update();
-
-
-
-
-	//if (input.IsKeyDown(sf::Key::Up))
-	//	entity.Play(); // In case of not currently playing.
-
-	//else
-	//	entity.Pause();
-
-
-
-}
 
 
 //
@@ -115,7 +99,7 @@ int main()
 		}
 
 		// Make all updates.
-		UpdateEntityMouse(gameEntity, window.GetInput());
+		UpdateEntity(gameEntity, window.GetInput());
 
 		// Draw everything.
 		window.Clear(); 

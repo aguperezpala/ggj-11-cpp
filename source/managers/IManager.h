@@ -7,7 +7,7 @@
 class IManager {
 public:
 	IManager(){};
-	virtual ~IManager();
+	virtual ~IManager() {};
 
 	/* This function will take the time from the last frame */
 	virtual void update(float dTime) = 0;

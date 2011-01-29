@@ -43,6 +43,7 @@
 */
 
 #include "animated.hpp"
+#include <cassert>
 
 /*!
  \namespace sftools
@@ -201,6 +202,28 @@ void Animated::Update()
         }
     }
 }
+
+
+
+float Animated::GetWidth() const
+{
+
+	assert(my_anim && "Animated::GetWidth(): The resource pointer is NULL");
+
+	return (*my_anim)[my_current_frame].my_rect.GetWidth();
+
+}
+
+
+float Animated::GetHeight() const
+{
+
+	assert(my_anim && "Animated::GetHeight(): The resource pointer is NULL");
+
+	return (*my_anim)[my_current_frame].my_rect.GetHeight();
+
+}
+
 
 void Animated::Render(sf::RenderTarget&) const
 {
