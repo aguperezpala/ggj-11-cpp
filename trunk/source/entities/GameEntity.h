@@ -39,7 +39,7 @@ public:
 	void SetActivation(bool activation);
 	bool IsActive() const;
 
-	const sf::Vector2f&  GetCenterCordinates(); 
+	const sf::Vector2f  GetCenterCordinates();
 
 
 private:
