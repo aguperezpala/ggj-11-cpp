@@ -56,7 +56,7 @@ int main()
 
 	// Loading a picture with anims.
 	sf::Image img;
-	if (!img.LoadFromFile("../../resources/images/truck/House02.png"))
+	if (!img.LoadFromFile("../../resources/images/House/House02.png"))
 		return EXIT_FAILURE;
 
 	Anim anim = GetAnimFromImage(img, 122.0f, 110.0f, 1);
@@ -78,7 +78,7 @@ int main()
 
 	// Loading a picture with anims.
 	sf::Image map;
-	if (!map.LoadFromFile("../../resources/images/background/bk32.png"))
+	if (!map.LoadFromFile("../../resources/images/background/bk1024.png"))
 		return EXIT_FAILURE;
 
 	Anim animMap = GetAnimFromImage(map, 1024.0f, 768.0f, 1);
