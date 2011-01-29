@@ -13,7 +13,7 @@
 // Headers
 //
 #include "../entities/GameEntity.h"
-#include "../managers/GameEntity.h"
+#include "ScrollingManager.h"
 #include <iostream>
 
 
@@ -35,6 +35,15 @@ Anim GetAnimFromImage(const sf::Image& img, float height, float width, int howMa
 }
 
 
+void UpdateEntity(GameEntity& entity)
+{
+	
+	entity.Update();
+	entity.Play(); // In case of not currently playing.
+	
+}
+
+
 //
 // Main
 //
@@ -51,7 +60,14 @@ int main()
 	Anim anim = GetAnimFromImage(img, 146.0f, 146.0f, 18);
 
 	GameEntity gameEntity(anim, 0.03f);
-	gameEntity.SetPosition(500.0f, 500.0f);
+	gameEntity.SetPosition(900.0f, 500.0f);
+
+	ScrollingManager::getInstance()->insertEntity(&gameEntity);
+	ScrollingManager::getInstance()->setVelocity(-200.0f);
+	ScrollingManager::getInstance()->setActive(true);
+
+	unsigned int Seed = 10;
+	sf::Randomizer::SetSeed(Seed);
 
 	// Main loop.
 	sf::Event event;
@@ -78,10 +94,15 @@ int main()
 
 		}
 
-		// Make all updates.
-		UpdateEntityMouse(gameEntity, window.GetInput());
 
-		// Draw everything.
+		UpdateEntity(gameEntity);
+
+
+		int Random = sf::Randomizer::Random(-600, 600);
+		ScrollingManager::getInstance()->setVelocity(float(Random));
+		ScrollingManager::getInstance()->update(window.GetFrameTime());
+
+			// Draw everything.
 		window.Clear(); 
 		window.Draw(gameEntity);
 		window.Display();
