@@ -56,9 +56,9 @@ int main()
 	// Loading a picture with anims.
 	sf::Image img;
 	sf::Image img2;
-	if (!img.LoadFromFile("../../resources/images/background/backgroundtex1.png"))
+	if (!img.LoadFromFile("../../resources/images/background/bk32.png"))
 		return EXIT_FAILURE;
-	if (!img2.LoadFromFile("../../resources/images/background/backgroundtex1.png"))
+	if (!img2.LoadFromFile("../../resources/images/background/bk32.png"))
 			return EXIT_FAILURE;
 
 	EnvironmentManager envMan(768, 1024);
