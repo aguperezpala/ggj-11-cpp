@@ -102,9 +102,9 @@ std::map<std::string, Anim> LevelFactory::GetMapAnimation()
 {
 
 	std::map<std::string, Anim> animMap;
-	m_ImgManager->Load("../../resources/images/background/bk1024.png");
-	animMap.insert(std::pair<std::string, Anim>("map1", GetAnimFromImage((*m_ImgManager)["../../resources/images/background/bk1024.png"], 1024.0f, 768.0f, 1)));
-	animMap.insert(std::pair<std::string, Anim>("map1", GetAnimFromImage((*m_ImgManager)["../../resources/images/background/bk1024.png"], 1024.0f, 768.0f, 1)));
+	m_ImgManager->Load("../../resources/images/background/bkex.png");
+	animMap.insert(std::pair<std::string, Anim>("map1", GetAnimFromImage((*m_ImgManager)["../../resources/images/background/bkex.png"], 1024.0f, 768.0f, 1)));
+	animMap.insert(std::pair<std::string, Anim>("map2", GetAnimFromImage((*m_ImgManager)["../../resources/images/background/bkex.png"], 1024.0f, 768.0f, 1)));
 
 	return animMap;
 

@@ -17,6 +17,7 @@
 #include "GameEntity.h"
 #include "Environment.h"
 #include "EnvironmentManager.h"
+#include "ScrollingManager.h"
 #include <cassert>
 
 
@@ -55,6 +56,7 @@ void LevelState::Init(sf::RenderWindow *pScreen)
 
 	InitPlayer();
 	InitEnvironmentManager();
+	InitScrollingManager();
 
 }
 
@@ -65,12 +67,15 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	assert(m_pScreen && "LevelState::Execute(StateMachine* pStateMachine): RenderWindow is NULL");
 	assert(m_pPlayer && "LevelState::Execute(StateMachine* pStateMachine): GameEntity is NULL");
 
+	m_pScreen->Draw(*m_pMap1);
+	m_pScreen->Draw(*m_pMap2);
 	m_pScreen->Draw(*m_pPlayer);
-
+	
 	CheckInput();
 
-	m_pPlayer->Update();
+	ScrollingManager::getInstance()->update(m_pScreen->GetFrameTime());
 	m_pEnvironmentManager->update(m_pScreen->GetFrameTime());
+	m_pPlayer->Update();
 
 }
 
@@ -143,6 +148,8 @@ void LevelState::InitEnvironmentManager()
 	m_pEnvironmentManager = new EnvironmentManager(m_pScreen->GetHeight(), m_pScreen->GetWidth());
 	m_pEnvironmentManager->pushEnvironment(m_pEnvironment);
 
+	m_pEnvironmentManager->setActive(true);
+
 }
 
 
@@ -155,9 +162,21 @@ void LevelState::InitEnvironment()
 	m_MapsVector.push_back(m_pMap1);
 	m_MapsVector.push_back(m_pMap2);
 
+	m_pMap1->SetActivation(true);
+	m_pMap2->SetActivation(true);
+
 	// Create environment
 	m_pEnvironment = new Environment("environment1", m_MapsVector, false, 20.0f);
 	
+}
+
+
+void LevelState::InitScrollingManager()
+{
+
+	ScrollingManager::getInstance()->setActive(true);
+	ScrollingManager::getInstance()->setVelocity(-100.0f);
+
 }
 
 
