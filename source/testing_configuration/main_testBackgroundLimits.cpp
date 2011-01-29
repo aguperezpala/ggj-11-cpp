@@ -14,6 +14,7 @@
 //
 #include "GameEntity.h"
 #include <iostream>
+#include "CannonHelper.h"
 
 
 //
@@ -79,6 +80,16 @@ int main()
 	if (!img.LoadFromFile("../../resources/images/truck/TruckFordward1.png"))
 		return EXIT_FAILURE;
 
+	sf::Image bombImg;
+	if (!bombImg.LoadFromFile("../../resources/images/truck/bombucha.png"))
+		return EXIT_FAILURE;
+
+
+	Anim bombAnim = GetAnimFromImage(bombImg, 20.0f, 30.0f, 1);
+	GameEntity bombEntity(bombAnim, 0.03f);
+	bombEntity.SetActivation(true);
+	bombEntity.SetPosition(100,100);
+
 	Anim anim = GetAnimFromImage(img, 200.0f, 120.0f, 1);
 
 	GameEntity gameEntity1(anim, 0.03f);
@@ -113,6 +124,10 @@ int main()
 	cannonEntity.SetX(550.0f);
 	cannonEntity.SetY(550.0f);
 	
+	sf::Vector2<int> mousePos;
+	sf::Vector2f cannonPos;
+	sf::Vector2f bombDirection;
+
 
 	unsigned int Seed = 10;
 	sf::Randomizer::SetSeed(Seed);
@@ -142,12 +157,34 @@ int main()
 
 		}
 
+		mousePos.x = window.GetInput().GetMouseX();
+		mousePos.y = window.GetInput().GetMouseY();
+		cannonPos.x = cannonEntity.GetPosition().x + (cannonEntity.GetWidth()/2.0f);
+		cannonPos.y = cannonEntity.GetPosition().y + (cannonEntity.GetHeight()/2.0f);
+		int pos = CannonHelper::getAnimationIndex(mousePos,	cannonPos);
+		cannonEntity.SetFrame(pos);
+
+
+		if(window.GetInput().IsMouseButtonDown(sf::Mouse::Left)){
+	/*		bombEntity.SetPosition(CannonHelper::getCannonHole(cannonPos, pos,
+					bombEntity.GetHeight()/2.0f));
+	*/
+			bombEntity.SetPosition(cannonPos);
+			//bombEntity.Move(bombEntity.GetWidth()/2.0f, -bombEntity.GetHeight());
+
+			bombDirection = CannonHelper::getVectoriDirection(cannonPos, mousePos);
+		}
+
+		bombEntity.Move(bombDirection);
+
 		// Draw everything.
 		window.Clear(); 
 		UpdateEntity(gameEntity1, cannonEntity, window.GetInput(), window.GetFrameTime());
 		window.Draw(mapEntity);
-		window.Draw(gameEntity1);
+		//window.Draw(gameEntity1);
 		window.Draw(cannonEntity);
+		window.Draw(bombEntity);
+
 		window.Display();
 
 	}

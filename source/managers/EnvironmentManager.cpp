@@ -18,7 +18,7 @@ void EnvironmentManager::insertOnScrollingMap(float x, float y)
 	int index = 0;
 	// check the logic
 	if(mActualEnvironmnet->randomSelection) {
-		index = sf::Randomizer::Random(0, mMapsOutScrolling.size() - 1);
+		index = sf::Randomizer::Random(0, mMapsOutScrolling.size()-1);
 	} else {
 		// get the next element
 		mMapIndex = (mMapIndex + 1) % mMapsOutScrolling.size();
@@ -64,7 +64,7 @@ void EnvironmentManager::handleOutOfScreensMaps(void)
 			mMapsOnScrolling.erase(find(mMapsOnScrolling.begin(),
 					mMapsOnScrolling.end(),	ent));
 			// insert new one
-			insertOnScrollingMap(nextEnt->GetPosition().x + nextEnt->GetWidth() -4, 0);
+			insertOnScrollingMap(nextEnt->GetPosition().x + nextEnt->GetWidth() -10, 0);
 			return;
 		} else {
 			// we have to pass the Map from the OnScrolling list to the OutScrolling
@@ -75,7 +75,7 @@ void EnvironmentManager::handleOutOfScreensMaps(void)
 			mMapsOutScrolling.push_back(ent);
 
 			// insert new one
-			insertOnScrollingMap(nextEnt->GetPosition().x + nextEnt->GetWidth() - 4, 0);
+			insertOnScrollingMap(nextEnt->GetPosition().x + nextEnt->GetWidth()-10, 0);
 
 
 		}
@@ -121,7 +121,7 @@ void EnvironmentManager::pushEnvironment(const Environment *env)
 	std::vector<GameEntity *>::const_iterator it;
 	for(it = env->maps.begin(); it != env->maps.end(); ++it){
 		if(!(*it) || ((*it)->GetHeight() != mScreenY) ||
-				((*it)->GetWidth() != mScreenX)) {
+				((*it)->GetWidth() < mScreenX)) {
 			ASSERT(false);
 			return;
 		}
