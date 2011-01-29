@@ -18,8 +18,8 @@
 // Headers
 //
 #include <string>
-#include <map>
 #include "anim.hpp"
+#include <map>
 
 
 using namespace sftools;
