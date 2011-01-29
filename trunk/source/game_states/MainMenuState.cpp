@@ -191,7 +191,7 @@ void MainMenuState::DrawTitle()
 
 	assert(m_pText && "MainMenuState::DrawTitle(): trying to use to a NULL text");
 
-	m_pText->SetText("CaperucitaPlusPlus");
+	m_pText->SetText("The Last Fireman");
 	m_pText->SetStyle(sf::String::Bold);
 	m_pText->SetColor(sf::Color::Red);
 	float xCoord = float(m_pScreen->GetWidth())/2.0f  - m_pText->GetRect().GetWidth()/2.0f;
