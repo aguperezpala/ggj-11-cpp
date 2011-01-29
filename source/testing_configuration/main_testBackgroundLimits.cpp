@@ -38,17 +38,18 @@ void UpdateEntity(GameEntity& entity, GameEntity& entity2, const sf::Input& inpu
 {
 
 	entity.Update();
+	entity2.Update();
 
 	if(input.IsKeyDown(sf::Key::Up))
 		entity.Move(0.0f, -100.0f * frameTime);
 
-	else if (input.IsKeyDown(sf::Key::Down))
+	if (input.IsKeyDown(sf::Key::Down))
 		entity.Move(0.0f, 100.0f * frameTime);
 
-	else if(input.IsKeyDown(sf::Key::Left))
+	if(input.IsKeyDown(sf::Key::Left))
 		entity.Move(-100.0f * frameTime, 0.0f);
 
-	else if (input.IsKeyDown(sf::Key::Right))
+	if (input.IsKeyDown(sf::Key::Right))
 		entity.Move(100.0f * frameTime, 0.0f);
 
 
@@ -104,13 +105,13 @@ int main()
 	if (!cannon.LoadFromFile("../../resources/images/truck/cannon.png"))
 		return EXIT_FAILURE;
 
-	Anim animCannon = GetAnimFromImage(cannon, 180.0f, 115.0f, 1);
+	Anim animCannon = GetAnimFromImage(cannon, 180.0f, 115.0f, 18);
 
 	GameEntity cannonEntity(animCannon, 0.03f);
-	cannonEntity.Stop();
-	cannonEntity.SetLoop(false);
-	cannonEntity.SetX(0.0f);
-	cannonEntity.SetY(0.0f);
+	cannonEntity.Play();
+	cannonEntity.SetLoop(true);
+	cannonEntity.SetX(550.0f);
+	cannonEntity.SetY(550.0f);
 	
 
 	unsigned int Seed = 10;
@@ -140,7 +141,6 @@ int main()
 			}
 
 		}
-
 
 		// Draw everything.
 		window.Clear(); 
