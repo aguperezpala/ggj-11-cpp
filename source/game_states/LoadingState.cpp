@@ -14,7 +14,7 @@
 //
 #include "LoadingState.h"
 #include "StateMachine.h"
-#include "MainMenuState.h"
+#include "LevelState.h"
 #include <cassert>
 
 
@@ -60,7 +60,7 @@ void LoadingState::Execute(StateMachine* pStateMachine)
 	}
 
 	else
-		pStateMachine->ChangeState(MainMenuState::Instance());
+		pStateMachine->ChangeState(LevelState::Instance());
 
 }
 
