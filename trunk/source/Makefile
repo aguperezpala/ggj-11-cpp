@@ -63,7 +63,7 @@ MY_CFLAGS =
 MY_LIBS   = -lsfml-graphics -lsfml-window -lsfml-system -lpthread
 
 # The pre-processor options used by the cpp (man cpp for more).
-CPPFLAGS  = -Wall -ansi -I. -Igame_states -Imanagers -I utilities -Icollision -Ientities
+CPPFLAGS  = -Wall -ansi -I. -Igame_states -Imanagers -I utilities -Icollision -Ientities -DDEBUG
 
 # The options used in linking as well as in any direct use of ld.
 LDFLAGS   =

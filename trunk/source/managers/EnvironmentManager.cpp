@@ -40,13 +40,22 @@ void EnvironmentManager::handleOutOfScreensMaps(void)
 	if(mMapsOnScrolling.empty()){
 		// this is the initial case, we have to add 2 maps.
 		insertOnScrollingMap(0,0);
-		insertOnScrollingMap(mScreenX, mScreenY);
+		insertOnScrollingMap(mScreenX, 0);
 		return;
 	}
 
 	GameEntity *ent = mMapsOnScrolling[0];
+	GameEntity *nextEnt = 0;
 
 	if(!isEntityInScreen(ent)){
+		// we remove from the scrollingManager (isn't anymore in the screen)
+		ScrollingManager::getInstance()->removeEntity(ent);
+
+		// we get the next entity
+		if(mMapsOnScrolling.size() < 2)
+			ASSERT(false);
+		GameEntity *nextEnt = mMapsOnScrolling[1];
+
 		// now we check if the ent is in the vector of the actual env
 		if(find(mActualEnvironmnet->maps.begin(), mActualEnvironmnet->maps.end(),
 				ent) == mActualEnvironmnet->maps.end()){
@@ -55,8 +64,20 @@ void EnvironmentManager::handleOutOfScreensMaps(void)
 			mMapsOnScrolling.erase(find(mMapsOnScrolling.begin(),
 					mMapsOnScrolling.end(),	ent));
 			// insert new one
-			insertOnScrollingMap(mScreenX, mScreenY);
+			insertOnScrollingMap(nextEnt->GetPosition().x + nextEnt->GetWidth() -4, 0);
 			return;
+		} else {
+			// we have to pass the Map from the OnScrolling list to the OutScrolling
+			// list
+			mMapsOnScrolling.erase(find(mMapsOnScrolling.begin(),
+								mMapsOnScrolling.end(),	ent));
+			// we let it available again in the OutScrilling vector
+			mMapsOutScrolling.push_back(ent);
+
+			// insert new one
+			insertOnScrollingMap(nextEnt->GetPosition().x + nextEnt->GetWidth() - 4, 0);
+
+
 		}
 	} // else we have nothing to do.
 }
@@ -64,6 +85,9 @@ void EnvironmentManager::handleOutOfScreensMaps(void)
 ///////////////////////////////////////////////////////////////////////////////
 void EnvironmentManager::setNewEnvironment(const Environment *env)
 {
+	if(!mActualEnvironmnet){
+		mActualEnvironmnet = env;
+	}
 	mEnvironments.remove(mActualEnvironmnet);
 	mEnvironments.push_back(mActualEnvironmnet);
 	mActualEnvironmnet = env;
@@ -78,7 +102,7 @@ void EnvironmentManager::setNewEnvironment(const Environment *env)
 
 
 ///////////////////////////////////////////////////////////////////////////////
-EnvironmentManager::EnvironmentManager(float x, float y) :
+EnvironmentManager::EnvironmentManager(float y, float x) :
 	mActualEnvironmnet(0), mScreenX(x), mScreenY(y), mMapIndex(0)
 {
 	// TODO Auto-generated constructor stub
@@ -105,6 +129,10 @@ void EnvironmentManager::pushEnvironment(const Environment *env)
 
 	// everything ok
 	mEnvironments.push_back(env);
+	// if we have no actualEnvironment then we set it
+	if(!mActualEnvironmnet) {
+		setNewEnvironment(env);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -167,6 +195,9 @@ void EnvironmentManager::forceSetEnvironment(const std::string &name)
 ///////////////////////////////////////////////////////////////////////////////
 void EnvironmentManager::forceJumpEnvironment(void)
 {
+	if(mEnvironments.size() == 1)
+		return;
+
 	std::list<const Environment*>::iterator it;
 
 	it = find(mEnvironments.begin(), mEnvironments.end(), mActualEnvironmnet);
