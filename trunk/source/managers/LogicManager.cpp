@@ -117,7 +117,13 @@ void LogicManager::TryToPlaceAffectable(float frameTime)
 			{
 
 				m_AffectableEntities[i]->SetX(m_WindowWidth);
-				m_AffectableEntities[i]->SetY(sf::Randomizer::Random(0.0f, m_WindowHeight));
+
+				// Get a Y coordinate to place the affectable entity based on probability.
+
+				if(sf::Randomizer::Random(0.0f, 10.0f) < 5.0f == 0)
+					m_AffectableEntities[i]->SetY(0.0f);
+				else
+					m_AffectableEntities[i]->SetY(650.0f);
 				
 				m_AffectableEntities[i]->SetActivation(true);
 

@@ -24,7 +24,7 @@
 //
 
 // Get an Anim from an Image
-Anim GetAnimFromImage(const sf::Image& img, float height, float width, int howMany)
+Anim GetAnimFromImage(const sf::Image& img, float width, float height, int howMany)
 {
 
 	// Add each frame
@@ -56,10 +56,10 @@ int main()
 
 	// Loading a picture with anims.
 	sf::Image img;
-	if (!img.LoadFromFile("../../resources/images/truck/canon.png"))
+	if (!img.LoadFromFile("../../resources/images/truck/House02.png"))
 		return EXIT_FAILURE;
 
-	Anim anim = GetAnimFromImage(img, 146.0f, 146.0f, 18);
+	Anim anim = GetAnimFromImage(img, 122.0f, 110.0f, 1);
 
 	GameEntity gameEntity1(anim, 0.03f);
 	GameEntity gameEntity2(anim, 0.03f);
@@ -76,6 +76,19 @@ int main()
 	GameEntity fireEntity2(fireAnim, 0.03f);
 	GameEntity fireEntity3(fireAnim, 0.03f);
 
+	// Loading a picture with anims.
+	sf::Image map;
+	if (!map.LoadFromFile("../../resources/images/background/bk32.png"))
+		return EXIT_FAILURE;
+
+	Anim animMap = GetAnimFromImage(map, 1024.0f, 768.0f, 1);
+
+	GameEntity mapEntity(animMap, 0.03f);
+	mapEntity.Stop();
+	mapEntity.SetLoop(false);
+	mapEntity.SetX(0.0f);
+	mapEntity.SetY(0.0f);
+
 	ScrollingManager::getInstance()->insertEntity(&fireEntity1);
 	ScrollingManager::getInstance()->insertEntity(&fireEntity2);
 	ScrollingManager::getInstance()->insertEntity(&fireEntity3);
@@ -83,6 +96,7 @@ int main()
 	ScrollingManager::getInstance()->insertEntity(&gameEntity1);
 	ScrollingManager::getInstance()->insertEntity(&gameEntity2);
 	ScrollingManager::getInstance()->insertEntity(&gameEntity3);
+
 	ScrollingManager::getInstance()->setVelocity(-200.0f);
 	ScrollingManager::getInstance()->setActive(true);
 
@@ -144,6 +158,9 @@ int main()
 
 		// Draw everything.
 		window.Clear(); 
+
+		window.Draw(mapEntity);
+
 		if(gameEntity1.IsActive())
 			window.Draw(gameEntity1);
 		if(gameEntity1.GetPosition().x + gameEntity1.GetWidth() < 0.0f)
