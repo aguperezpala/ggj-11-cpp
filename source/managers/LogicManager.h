@@ -31,19 +31,32 @@ class LogicManager
 
 public:
 
-	LogicManager();
+	LogicManager(float windowHeight, float windowWidth);
 	virtual ~LogicManager();
 
 	void AddAffectable(GameEntity* pEntity);
 	void AddAffector(GameEntity* pEntity);
 
-	void Update();
+	void Update(float frameTime);
 
 
 private:
 
+	void TryToPlaceAffectable(float frameTime); 
+	void TryToPlaceAffector(float frameTime);
+
+	float m_TimeOutToPlaceAffectable; // Time to wait before place a new affectable in the game.
+	float m_CurrentAffectableTimeOut;
+
+	float m_TimeOutToPlaceAffector;  // Time to wait before place a new affector in the game.
+	float m_CurrentAffectorTimeOut;
+
+
 	std::vector<GameEntity*> m_AffectableEntities; // Entities that will be affected by the affector entities.
 	std::vector<GameEntity*> m_AffectorEntities;   // Entities that will affect the affectable entities.
+
+	float m_WindowHeight;
+	float m_WindowWidth;
 
 };
 
