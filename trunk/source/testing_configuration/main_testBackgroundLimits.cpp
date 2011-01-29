@@ -41,16 +41,16 @@ void UpdateEntity(GameEntity& entity, GameEntity& entity2, const sf::Input& inpu
 	entity2.Update();
 
 	if(input.IsKeyDown(sf::Key::Up))
-		entity.Move(0.0f, -100.0f * frameTime);
+		entity.Move(0.0f, -400.0f * frameTime);
 
 	if (input.IsKeyDown(sf::Key::Down))
-		entity.Move(0.0f, 100.0f * frameTime);
+		entity.Move(0.0f, 400.0f * frameTime);
 
 	if(input.IsKeyDown(sf::Key::Left))
-		entity.Move(-100.0f * frameTime, 0.0f);
+		entity.Move(-400.0f * frameTime, 0.0f);
 
 	if (input.IsKeyDown(sf::Key::Right))
-		entity.Move(100.0f * frameTime, 0.0f);
+		entity.Move(400.0f * frameTime, 0.0f);
 
 
 	if(input.IsKeyDown(sf::Key::S))
