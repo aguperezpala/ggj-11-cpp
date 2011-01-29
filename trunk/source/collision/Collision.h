@@ -33,6 +33,8 @@ it freely, subject to the following restrictions:
  
 #ifndef _COLLISION_H
 #define	_COLLISION_H
+
+#include "GameEntity.h"
  
  
 #ifndef PI
@@ -69,7 +71,7 @@ public:
      *
      *  @see Collision::PixelPerfectTest
      */
-    static bool BoundingBoxTest(const sf::Sprite& Object1, const sf::Sprite& Object2);
+    static bool BoundingBoxTest(const GameEntity& Object1, const GameEntity& Object2);
  
     /**
      *  Generate a Axis-Aligned Bounding Box for broad phase of

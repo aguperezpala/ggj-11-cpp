@@ -150,11 +150,11 @@ bool Collision::CircleTest(const sf::Sprite& Object1, const sf::Sprite& Object2)
  
 //From Rotated Rectangles Collision Detection, Oren Becker, 2001
  
-bool Collision::BoundingBoxTest(const sf::Sprite& Object1, const sf::Sprite& Object2) {
+bool Collision::BoundingBoxTest(const GameEntity& Object1, const GameEntity& Object2) {
  
     sf::Vector2f A, B, C, BL, TR;
-    sf::Vector2f HalfSize1 = Object1.GetSize();
-    sf::Vector2f HalfSize2 = Object2.GetSize();
+    sf::Vector2f HalfSize1 = sf::Vector2f(Object1.GetWidth(), Object1.GetHeight());
+    sf::Vector2f HalfSize2 = sf::Vector2f(Object2.GetWidth(), Object2.GetHeight());
  
     //For somereason the Vector2d divide by operator
     //was misbehaving
