@@ -34,6 +34,8 @@ public:
 	LogicManager(float windowHeight, float windowWidth);
 	virtual ~LogicManager();
 
+	void TweakTimeOuts(float offset);
+
 	void AddAffectable(GameEntity* pEntity);
 	void AddAffector(GameEntity* pEntity);
 
@@ -41,6 +43,8 @@ public:
 
 
 private:
+	
+	void UpdateAffected();
 
 	void TryToPlaceAffectable(float frameTime); 
 	void TryToPlaceAffector(float frameTime);
@@ -53,6 +57,7 @@ private:
 
 
 	std::vector<GameEntity*> m_AffectableEntities; // Entities that will be affected by the affector entities.
+	std::vector<bool> m_IsAffected; // This stores the state of the affectables items.
 	std::vector<GameEntity*> m_AffectorEntities;   // Entities that will affect the affectable entities.
 
 	float m_WindowHeight;

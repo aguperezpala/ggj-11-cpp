@@ -37,12 +37,28 @@ LogicManager::LogicManager(float windowHeight, float windowWidth) : m_TimeOutToP
 LogicManager::~LogicManager() {}
 
 
+void LogicManager::TweakTimeOuts(float offset)
+{
+
+	m_TimeOutToPlaceAffectable += offset;
+	m_TimeOutToPlaceAffector += offset;
+
+	if(m_TimeOutToPlaceAffectable < m_CurrentAffectableTimeOut)
+		m_CurrentAffectableTimeOut = m_TimeOutToPlaceAffectable;
+
+	if(m_TimeOutToPlaceAffector < m_CurrentAffectorTimeOut)
+		m_CurrentAffectorTimeOut = m_TimeOutToPlaceAffector;
+
+}
+
+
 void LogicManager::AddAffectable(GameEntity *pEntity)
 {
 
 	assert(pEntity && "LogicManager::AddAffectable(GameEntity *pEntity): Trying to initialize to NULL entity.");
 
 	m_AffectableEntities.push_back(pEntity);
+	m_IsAffected.push_back(false);
 
 }
 
@@ -60,8 +76,25 @@ void LogicManager::AddAffector(GameEntity *pEntity)
 void LogicManager::Update(float frameTime)
 {
 
+	UpdateAffected();
 	TryToPlaceAffectable(frameTime);
 	TryToPlaceAffector(frameTime);
+
+}
+
+
+void LogicManager::UpdateAffected()
+{
+
+
+	for(unsigned int i=0; i<m_AffectableEntities.size(); i++)
+	{
+
+		// If the entity is not active, then it is not affected.
+		if(!m_AffectableEntities[i]->IsActive())
+			m_IsAffected[i] = false;
+
+	}
 
 }
 
@@ -107,7 +140,7 @@ void LogicManager::TryToPlaceAffector(float frameTime)
 	m_CurrentAffectorTimeOut -= frameTime;
 
 	// Check if is time to put a new affectable entity
-	if(m_CurrentAffectableTimeOut <= 0.0f)
+	if(m_CurrentAffectorTimeOut <= 0.0f)
 	{
 
 		// Check if we have an inactive affector.
@@ -117,7 +150,12 @@ void LogicManager::TryToPlaceAffector(float frameTime)
 
 			// We found an inactive affector!
 			if(!m_AffectorEntities[j]->IsActive())
-				affector = 0;
+			{
+			
+				affector = m_AffectorEntities[j];
+				break;
+
+			}
 
 		}
 
@@ -129,8 +167,8 @@ void LogicManager::TryToPlaceAffector(float frameTime)
 			for(unsigned int i=0; i<m_AffectableEntities.size(); i++)
 			{
 
-				// We found an active entity!
-				if(m_AffectableEntities[i]->IsActive())
+				// We found an active and not affected entity!
+				if(m_AffectableEntities[i]->IsActive() && m_IsAffected[i] == false)
 				{
 
 					affector->SetX(m_AffectableEntities[i]->GetPosition().x);
@@ -140,6 +178,10 @@ void LogicManager::TryToPlaceAffector(float frameTime)
 
 					// Reset the time out
 					m_CurrentAffectorTimeOut = m_TimeOutToPlaceAffector;
+
+					// This entity is now affected
+					m_IsAffected[i] = true;
+
 					break;
 
 				}
