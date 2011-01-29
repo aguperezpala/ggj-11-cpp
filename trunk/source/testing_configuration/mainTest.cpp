@@ -29,6 +29,9 @@ int main()
 	Sprite.SetPosition(200.f, 100.f);
 	Sprite.SetScale(0.5f, 0.5f);
 
+	sf::IntRect rect(20.0f, 20.0f, 200.0f, 200.0f);
+	Sprite.SetSubRect(rect);
+
 	// Start game loop
 	while (App.IsOpened())
 	{
