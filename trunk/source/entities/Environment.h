@@ -29,11 +29,9 @@ struct Environment {
 	// the time duration that the environment will be shown
 	float time;
 
-	Environment(const std::string &n, conststd::vector<GameEntity *> &m,
+	Environment(const std::string &n, const std::vector<GameEntity *> &m,
 			bool r, float t) : name(n), maps(m),randomSelection(r), time(t)
 	{}
-
-};
 
 };
 
