@@ -65,6 +65,21 @@ int main()
 	GameEntity gameEntity2(anim, 0.03f);
 	GameEntity gameEntity3(anim, 0.03f);
 
+	// Loading a picture with anims.
+	sf::Image fire;
+	if (!fire.LoadFromFile("../../resources/images/fire2/1.png"))
+		return EXIT_FAILURE;
+
+	Anim fireAnim = GetAnimFromImage(fire, 82.0f, 88.0f, 1);
+
+	GameEntity fireEntity1(fireAnim, 0.03f);
+	GameEntity fireEntity2(fireAnim, 0.03f);
+	GameEntity fireEntity3(fireAnim, 0.03f);
+
+	ScrollingManager::getInstance()->insertEntity(&fireEntity1);
+	ScrollingManager::getInstance()->insertEntity(&fireEntity2);
+	ScrollingManager::getInstance()->insertEntity(&fireEntity3);
+
 	ScrollingManager::getInstance()->insertEntity(&gameEntity1);
 	ScrollingManager::getInstance()->insertEntity(&gameEntity2);
 	ScrollingManager::getInstance()->insertEntity(&gameEntity3);
@@ -75,6 +90,10 @@ int main()
 	logicManager.AddAffectable(&gameEntity1);
 	logicManager.AddAffectable(&gameEntity2);
 	logicManager.AddAffectable(&gameEntity3);
+	logicManager.AddAffector(&fireEntity1);
+	logicManager.AddAffector(&fireEntity2);
+	logicManager.AddAffector(&fireEntity3);
+
 
 	gameEntity1.Play();
 	gameEntity1.SetLoop(true);
@@ -82,6 +101,13 @@ int main()
 	gameEntity2.SetLoop(true);
 	gameEntity3.Play();
 	gameEntity3.SetLoop(true);
+
+	fireEntity1.Play();
+	fireEntity1.SetLoop(true);
+	fireEntity2.Play();
+	fireEntity2.SetLoop(true);
+	fireEntity3.Play();
+	fireEntity3.SetLoop(true);
 
 	unsigned int Seed = 10;
 	sf::Randomizer::SetSeed(Seed);
@@ -120,19 +146,43 @@ int main()
 		window.Clear(); 
 		if(gameEntity1.IsActive())
 			window.Draw(gameEntity1);
-		else if(gameEntity1.GetPosition().x + gameEntity1.GetWidth() < 0.0f)
+		if(gameEntity1.GetPosition().x + gameEntity1.GetWidth() < 0.0f)
 			gameEntity1.SetActivation(false);
+
 
 		if(gameEntity2.IsActive())
 			window.Draw(gameEntity2);
-		else if(gameEntity2.GetPosition().x + gameEntity2.GetWidth() < 0.0f)
+		if(gameEntity2.GetPosition().x + gameEntity2.GetWidth() < 0.0f)
 			gameEntity2.SetActivation(false);
 			
 		if(gameEntity3.IsActive())
 			window.Draw(gameEntity3);
-		else if(gameEntity3.GetPosition().x + gameEntity3.GetWidth() < 0.0f)
+		if(gameEntity3.GetPosition().x + gameEntity3.GetWidth() < 0.0f)
 			gameEntity3.SetActivation(false);
 
+		gameEntity1.Update();
+		gameEntity2.Update();
+		gameEntity3.Update();
+
+		if(fireEntity1.IsActive())
+			window.Draw(fireEntity1);
+		if(fireEntity1.GetPosition().x + fireEntity1.GetWidth() < 0.0f)
+			fireEntity1.SetActivation(false);
+
+
+		if(fireEntity2.IsActive())
+			window.Draw(fireEntity2);
+		if(fireEntity2.GetPosition().x + fireEntity2.GetWidth() < 0.0f)
+			fireEntity2.SetActivation(false);
+
+		if(fireEntity3.IsActive())
+			window.Draw(fireEntity3);
+		if(fireEntity3.GetPosition().x + fireEntity3.GetWidth() < 0.0f)
+			fireEntity3.SetActivation(false);
+
+		fireEntity1.Update();
+		fireEntity2.Update();
+		fireEntity3.Update();
 
 		window.Display();
 
