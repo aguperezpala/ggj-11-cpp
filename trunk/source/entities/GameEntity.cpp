@@ -20,7 +20,7 @@ int GameEntity::m_GlobalId = 0;
 
 
 // Default constructor
-GameEntity::GameEntity(float time, bool play, bool loop) : Animated(time, play, loop), m_Id(m_GlobalId)
+GameEntity::GameEntity(float time, bool play, bool loop) : Animated(time, play, loop), m_Id(m_GlobalId), m_IsActive(false)
 {
 
 	// We must increment the global Id to avoid Id conflicts.
@@ -47,5 +47,22 @@ int GameEntity::GetId() const
 {
 
 	return m_Id;
+
+}
+
+
+// Set if the entity is active or not, this will be used to decide if draw or not draw an entity.
+void GameEntity::SetActivation(bool activation)
+{
+
+	m_IsActive = activation;
+
+}
+
+
+bool GameEntity::IsActive() const
+{
+
+	return m_IsActive;
 
 }

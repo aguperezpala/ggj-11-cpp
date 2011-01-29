@@ -36,12 +36,17 @@ public:
 
 	int GetId() const;
 
+	void SetActivation(bool activation);
+	bool IsActive() const;
+
 
 private:
 
 	static int m_GlobalId; // This will assign an Id to all the GameEntities and will increment its value.
 
 	const int m_Id; // This is the Id for this GameEntity.
+
+	bool m_IsActive;
 
 };
 
