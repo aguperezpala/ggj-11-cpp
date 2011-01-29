@@ -63,14 +63,14 @@ MY_CFLAGS =
 MY_LIBS   = -lsfml-graphics -lsfml-window -lsfml-system -lpthread
 
 # The pre-processor options used by the cpp (man cpp for more).
-CPPFLAGS  = -Wall -ansi -I. -Igame_states -Imanagers -I utilities -Icollision -Ientities -DDEBUG
+CPPFLAGS  = -Wall -ansi -I. -Igame_states -Imanagers -I utilities -Icollision -Ientities -Ifactory -DDEBUG
 
 # The options used in linking as well as in any direct use of ld.
 LDFLAGS   =
 
 # The directories in which source files reside.
 # If not specified, only the current directory will be serached.
-SRCDIRS   = . game_states managers utilities collision entities
+SRCDIRS   = . game_states managers utilities collision entities factory
 
 # The executable file name.
 # If not specified, current directory name or `a.out' will be used.
