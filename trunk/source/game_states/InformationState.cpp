@@ -59,17 +59,17 @@ void InformationState::Clear()
 void InformationState::LoadResources(sf::RenderWindow* screen)
 {
 
-	assert(screen && "GameExplanationState::LoadResources(): trying to initialize to a NULL RenderWindow");
+	assert(screen && "InformationState::LoadResources(): trying to initialize to a NULL RenderWindow");
 
 	m_pScreen = screen;
 
-	imgManager.Load("../../resources/images/testImage.png");
+	imgManager.Load("../../resources/images/background/main_screen.png");
 
 	m_pBackgroundImage = new sf::Sprite();
 
-	assert(m_pBackgroundImage && "GameExplanationState::LoadResources(sf::RenderWindow* screen): Image for the menu is NULL");
+	assert(m_pBackgroundImage && "InformationState::LoadResources(sf::RenderWindow* screen): Image for the menu is NULL");
 
-	m_pBackgroundImage->SetImage(imgManager["../../resources/images/testImage.png"]);
+	m_pBackgroundImage->SetImage(imgManager["../../resources/images/background/main_screen.png"]);
 	m_pBackgroundImage->Resize(float(m_pScreen->GetWidth()), float(m_pScreen->GetHeight()));
 	m_pBackgroundImage->SetPosition(0.0f, 0.0f);
 
@@ -79,7 +79,7 @@ void InformationState::LoadResources(sf::RenderWindow* screen)
 void InformationState::DestroyResources()
 {
 
-	imgManager.Destroy("../../resources/images/testImage.png");
+	imgManager.Destroy("../../resources/images/background/main_screen.png");
 
 	if(m_pFont != 0)
 	{

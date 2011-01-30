@@ -31,6 +31,7 @@ class StateMachine;
 class GameEntity;
 class Environment;
 class EnvironmentManager;
+class LogicManager;
 
 
 class LevelState : public State
@@ -51,12 +52,24 @@ private:
 	LevelState();
 
 	void InitPlayer();
-
-	void CheckInput();
-
+	void InitCannon();
 	void InitEnvironmentManager();
 	void InitEnvironment();
 	void InitScrollingManager();
+	void InitLogicManager();
+
+	void CheckInput(StateMachine* pStateMachine);
+	void CheckKeyboard(StateMachine* pStateMachine);
+	void CheckMouse();
+	void CheckCannonRotation();
+
+	void DrawAffectables();
+	void DrawAffectors();
+
+	void UpdateAffectables();
+	void UpdateAffectors();
+
+	void DestroyImgManagerData();
 
 	sf::RenderWindow* m_pScreen;
 
@@ -76,6 +89,13 @@ private:
 	GameEntity* m_pMap2;
 
 	EnvironmentManager* m_pEnvironmentManager;
+
+	GameEntity* m_pCannon;
+
+	LogicManager* m_pLogicManager;
+
+	std::vector<GameEntity*> m_Affectables;
+	std::vector<GameEntity*> m_Affectors;
 
 };
 

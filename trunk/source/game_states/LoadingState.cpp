@@ -80,13 +80,13 @@ void LoadingState::LoadResources(sf::RenderWindow* screen)
 
 	m_pScreen = screen;
 
-	m_ImgManager.Load("../../resources/images/testImage.png");
+	m_ImgManager.Load("../../resources/images/background/despedida.png");
 
 	m_pBackgroundImage = new sf::Sprite();
 
 	assert(m_pBackgroundImage && "ThanksState::LoadResources(sf::RenderWindow* screen): the sprite is NULL");
 
-	m_pBackgroundImage->SetImage(m_ImgManager["../../resources/images/testImage.png"]);
+	m_pBackgroundImage->SetImage(m_ImgManager["../../resources/images/background/despedida.png"]);
 	m_pBackgroundImage->Resize(float(m_pScreen->GetWidth()), float(m_pScreen->GetHeight()));
 	m_pBackgroundImage->SetPosition(0.0f, 0.0f);
 
@@ -96,7 +96,7 @@ void LoadingState::LoadResources(sf::RenderWindow* screen)
 void LoadingState::DestroyResources()
 {
 
-	m_ImgManager.Destroy("../../resources/images/testImage.png");
+	m_ImgManager.Destroy("../../resources/images/background/despedida.png");
 
 	if(m_pBackgroundImage != 0)
 	{

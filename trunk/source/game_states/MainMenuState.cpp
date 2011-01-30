@@ -21,7 +21,7 @@
 #include <cassert>
 	
 
-const double MainMenuState::TIME_TO_WAIT = 0.05f;
+const double MainMenuState::TIME_TO_WAIT = 0.2f;
 
 
 // Default constructor
@@ -189,7 +189,7 @@ void MainMenuState::CheckInputs(StateMachine* pStateMachine)
 void MainMenuState::DrawTitle()
 {
 
-	assert(m_pText && "MainMenuState::DrawTitle(): trying to use to a NULL text");
+	/*assert(m_pText && "MainMenuState::DrawTitle(): trying to use to a NULL text");
 
 	m_pText->SetText("The Last Fireman");
 	m_pText->SetStyle(sf::String::Bold);
@@ -197,7 +197,7 @@ void MainMenuState::DrawTitle()
 	float xCoord = float(m_pScreen->GetWidth())/2.0f  - m_pText->GetRect().GetWidth()/2.0f;
 	float yCoord = float(m_pScreen->GetHeight())*0.2f;
 	m_pText->SetPosition(xCoord, yCoord);
-	m_pScreen->Draw(*m_pText);
+	m_pScreen->Draw(*m_pText);*/
 
 }
 
@@ -213,7 +213,7 @@ void MainMenuState::DrawContent()
 
 	// Menu Options
 	m_pText->SetText("New Game");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f);
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.6f, float(m_pScreen->GetHeight())*0.4f);
 	if(m_CurrentOption == MENUOPTION_NEWGAME)
 	{
 
@@ -227,7 +227,7 @@ void MainMenuState::DrawContent()
 
 
 	m_pText->SetText("Controls");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 50.0f);
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.6f, float(m_pScreen->GetHeight())*0.4f + 50.0f);
 	if(m_CurrentOption == MENUOPTION_CONTROLS)
 	{
 
@@ -241,7 +241,7 @@ void MainMenuState::DrawContent()
 
 
 	m_pText->SetText("Game Explanation");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 100.0f);
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.6f, float(m_pScreen->GetHeight())*0.4f + 100.0f);
 	if(m_CurrentOption == MENUOPTION_GAMEEXPLANATION)
 	{
 
@@ -255,7 +255,7 @@ void MainMenuState::DrawContent()
 
 
 	m_pText->SetText("Credits");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 150.0f);
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.6f, float(m_pScreen->GetHeight())*0.4f + 150.0f);
 	if(m_CurrentOption == MENUOPTION_CREDITS)
 	{
 
@@ -269,7 +269,7 @@ void MainMenuState::DrawContent()
 
 
 	m_pText->SetText("Exit");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 200.0f);
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.6f, float(m_pScreen->GetHeight())*0.4f + 200.0f);
 	if(m_CurrentOption == MENUOPTION_EXIT)
 	{
 

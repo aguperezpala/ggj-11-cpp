@@ -120,6 +120,8 @@ public:
 	*/
 	virtual void Destroy(const ResourceID& id);
 
+	virtual void DestroyAll();
+
 
 protected:
 		
@@ -262,6 +264,16 @@ void ResourceManager<ResourceType, ResourceInfo, ResourceID, ResourcePr>::Remove
 
 	my_resources.erase(id);
 	
+}
+
+template <class ResourceType, class ResourceInfo, class ResourceID, class ResourcePr>
+void ResourceManager<ResourceType, ResourceInfo, ResourceID, ResourcePr>::DestroyAll()
+{
+
+	std::map<ResourceID, ResourceType, ResourcePr>::iterator it;
+	for(it=my_resources.begin(); it!=my_resources.end(); ++it)
+		my_resources.erase(it);
+
 }
 
 
