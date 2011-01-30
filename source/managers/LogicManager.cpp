@@ -21,7 +21,7 @@
 
 
 // Default constructor
-LogicManager::LogicManager(float windowWidth, float windowHeight) : m_TimeOutToPlaceAffectable(0.5f), m_WindowHeight(windowHeight), m_WindowWidth(windowWidth)
+LogicManager::LogicManager(float windowWidth, float windowHeight) : m_TimeOutToPlaceAffectable(0.4f), m_WindowHeight(windowHeight), m_WindowWidth(windowWidth)
 {
 
 	m_CurrentAffectableTimeOut = m_TimeOutToPlaceAffectable;
@@ -39,10 +39,10 @@ LogicManager::~LogicManager() {}
 void LogicManager::TweakTimeOuts(float offset)
 {
 
-	m_TimeOutToPlaceAffectable *= offset;
+	m_TimeOutToPlaceAffectable = offset;
 	
-	if(m_TimeOutToPlaceAffectable < m_CurrentAffectableTimeOut)
-		m_CurrentAffectableTimeOut = m_TimeOutToPlaceAffectable;
+	//if(m_TimeOutToPlaceAffectable < m_CurrentAffectableTimeOut)
+		//m_CurrentAffectableTimeOut = m_TimeOutToPlaceAffectable;
 
 }
 
@@ -127,7 +127,7 @@ void LogicManager::TryToPlaceAnAffector(GameEntity* affectable)
 {
 
 	// Check if is time to put a new affectable entity
-	if(sf::Randomizer::Random(0.0f, 10.0f) > 7.0f)
+	if(sf::Randomizer::Random(0.0f, 10.0f) > 3.0f)
 	{
 
 		// Check if we have an inactive affector.

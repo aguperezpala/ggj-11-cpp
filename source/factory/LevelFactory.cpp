@@ -116,6 +116,10 @@ std::map<std::string, Anim> LevelFactory::GetBulletAnimation()
 	std::map<std::string, Anim> animMap;
 	m_ImgManager->Load("../../resources/images/proyectiles/Ballon.png");
 	animMap.insert(std::pair<std::string, Anim>("bullet", GetAnimFromImage((*m_ImgManager)["../../resources/images/proyectiles/Ballon.png"], 20.0f, 20.0f, 3)));
+	m_ImgManager->Load("../../resources/images/proyectiles/Ballonred.png");
+	animMap.insert(std::pair<std::string, Anim>("bullet2", GetAnimFromImage((*m_ImgManager)["../../resources/images/proyectiles/Ballonred.png"], 20.0f, 20.0f, 3)));
+	m_ImgManager->Load("../../resources/images/proyectiles/Ballongreen.png");
+	animMap.insert(std::pair<std::string, Anim>("bullet3", GetAnimFromImage((*m_ImgManager)["../../resources/images/proyectiles/Ballongreen.png"], 20.0f, 20.0f, 3)));
 
 	return animMap;
 
@@ -128,6 +132,8 @@ std::map<std::string, Anim> LevelFactory::GetExplosionAnimation()
 	std::map<std::string, Anim> animMap;
 	m_ImgManager->Load("../../resources/images/proyectiles/water.png");
 	animMap.insert(std::pair<std::string, Anim>("explosion", GetAnimFromImage((*m_ImgManager)["../../resources/images/proyectiles/water.png"], 90.0f, 90.0f, 6)));
+	m_ImgManager->Load("../../resources/images/proyectiles/water2.png");
+	animMap.insert(std::pair<std::string, Anim>("explosion2", GetAnimFromImage((*m_ImgManager)["../../resources/images/proyectiles/water2.png"], 90.0f, 90.0f, 6)));
 
 	return animMap;
 

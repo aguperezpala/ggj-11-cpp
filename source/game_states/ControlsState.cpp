@@ -48,7 +48,7 @@ void ControlsState::UpdateInputs(StateMachine* pStateMachine)
 void ControlsState::DrawTitle()
 {
 
-	assert(m_pText && "ControlsState::DrawTitle(): trying to use to a NULL text");
+	/*assert(m_pText && "ControlsState::DrawTitle(): trying to use to a NULL text");
 
 	// Title
 	m_pText->SetText("Controls");
@@ -62,7 +62,7 @@ void ControlsState::DrawTitle()
 	// Default style
 	m_pText->SetStyle(sf::String::Regular);
 	m_pText->SetColor(sf::Color::White);
-	m_pText->SetSize(40.0f);
+	m_pText->SetSize(40.0f);*/
 
 }
 
@@ -72,30 +72,32 @@ void ControlsState::DrawContent()
 	
 	assert(m_pText && "ControlsState::DrawControls(): trying to use to a NULL text");
 
+	m_pText->SetSize(30.0f);
+
 	// Menu Options
-	m_pText->SetText("Arrows: Movement and Jump");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f);
+	m_pText->SetText("Left/Right Arrows: Acceleration");
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.5f, float(m_pScreen->GetHeight())*0.4f);
 	m_pScreen->Draw(*m_pText);
 
-	m_pText->SetText("S: Shot");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 40.0f);
+	m_pText->SetText("Mouse: Move the fire hose");
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.5f, float(m_pScreen->GetHeight())*0.4f + 40.0f);
 	m_pScreen->Draw(*m_pText);
 
-	m_pText->SetText("Left Shift: Run");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 80.0f);
+	m_pText->SetText("Left Click: Shoot a water balloon");
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.5f, float(m_pScreen->GetHeight())*0.4f + 80.0f);
 	m_pScreen->Draw(*m_pText);
 
-	m_pText->SetText("P: Pause");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 120.0f);
+	m_pText->SetText("Up/Down Arrow: Move the fire truck");
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.5f, float(m_pScreen->GetHeight())*0.4f + 120.0f);
 	m_pScreen->Draw(*m_pText);
 
 	m_pText->SetText("Esc: Main Menu");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 160.0f);
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.5f, float(m_pScreen->GetHeight())*0.4f + 160.0f);
 	m_pScreen->Draw(*m_pText);
 
 	m_pText->SetText("Press ESC to go to main menu");
-	m_pText->SetSize(50.0f);
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 300.0f);
+	//m_pText->SetSize(50.0f);
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.5f, float(m_pScreen->GetHeight())*0.4f + 300.0f);
 	m_pScreen->Draw(*m_pText);
 
 }

@@ -151,6 +151,9 @@ private:
 	sf::SoundBuffer m_HornBuffer;
 	sf::Sound m_HornSound;
 
+	sf::SoundBuffer m_ShotBuffer;
+	sf::Sound m_ShotSound;
+
 	sf::Music m_AmbientMusic;
 
 };

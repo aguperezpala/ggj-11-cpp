@@ -124,8 +124,12 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	
 	// Check if the player loosed
 	if(m_TotalTime <= 0.0f)
+	{
+	
 		pStateMachine->ChangeState(ThanksState::Instance());
-		
+		m_AmbientMusic.Stop();
+
+	}
 
 	else
 	{
@@ -368,7 +372,14 @@ void LevelState::InitBullets()
 	for(int i=0; i<20; i++)
 	{
 
-		GameEntity* entity = new GameEntity(m_BulletAnimation["bullet"], 0.2f);
+		GameEntity* entity;
+		if(i%3==0)
+			entity = new GameEntity(m_BulletAnimation["bullet"], 0.2f);
+		else if(i%3==1)
+			entity = new GameEntity(m_BulletAnimation["bullet2"], 0.2f);
+		else
+			entity = new GameEntity(m_BulletAnimation["bullet3"], 0.2f);
+
 		entity->Play();
 		entity->SetLoop(true);
 		m_Bullets.push_back(entity);
@@ -385,7 +396,12 @@ void LevelState::InitExplosions()
 	for(int i=0; i<20; i++)
 	{
 
-		GameEntity* entity = new GameEntity(m_ExplosionAnimation["explosion"], 0.05f);
+		//GameEntity* entity = 0;
+		//if(i%2 == 1)
+			GameEntity* entity = new GameEntity(m_ExplosionAnimation["explosion"], 0.05f);
+		//else
+			//entity = new GameEntity(m_ExplosionAnimation["explosion2"], 0.05f);
+
 		m_Explosions.push_back(entity);
 
 	}
@@ -530,12 +546,16 @@ void LevelState::InitSounds()
 
 	bool correctLoading = m_HornBuffer.LoadFromFile("../../resources/sounds/horn.wav");
 	assert(correctLoading);
-
 	m_HornSound.SetBuffer(m_HornBuffer);
 
-	//m_AmbientMusic.Set
+	correctLoading = m_ShotBuffer.LoadFromFile("../../resources/sounds/shot.wav");
+	assert(correctLoading);
+	m_ShotSound.SetBuffer(m_ShotBuffer);
 
-
+	m_AmbientMusic.OpenFromFile("../../resources/sounds/music.ogg");
+	m_AmbientMusic.SetLoop(true);
+	m_AmbientMusic.SetVolume(70.0f);
+	m_AmbientMusic.Play();
 
 }
 
@@ -554,7 +574,12 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 {
 
 	if(m_pScreen->GetInput().IsKeyDown(sf::Key::Escape))
+	{
+	
 		pStateMachine->ChangeState(MainMenuState::Instance());
+		m_AmbientMusic.Stop();
+
+	}
 
 	else
 	{
@@ -651,6 +676,8 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 
 						BulletManager::getInstance()->addNewBullet(m_Bullets[i], bulletDirection*1000.0f);
 
+						m_ShotSound.Play();
+
 						// Restore the delta time
 						m_CurrentDelta = m_DeltaTime;
 						break;
@@ -663,19 +690,19 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 		}
 
 		// Update the offset of the affordable entities generation
-		float currentVelocity = ScrollingManager::getInstance()->getVelocity();
-		/*if(-250.0f <= currentVelocity <= 750.0f)
-			m_pLogicManager->TweakTimeOuts(2.0f);
+		/*float currentVelocity = ScrollingManager::getInstance()->getVelocity();
+		if(-250.0f <= currentVelocity <= 750.0f)
+			m_pLogicManager->TweakTimeOuts(0.4f);
 		else if(-750.0f <= currentVelocity <= 1250.0f)
-			m_pLogicManager->TweakTimeOuts(1.8f);
+			m_pLogicManager->TweakTimeOuts(0.35f);
 		else if(-1250.0f <= currentVelocity <= 1750.0f)
-			m_pLogicManager->TweakTimeOuts(1.6f);
+			m_pLogicManager->TweakTimeOuts(0.3f);
 		else if(-1750.0f <= currentVelocity <= 2250.0f)
-			m_pLogicManager->TweakTimeOuts(1.4f);
+			m_pLogicManager->TweakTimeOuts(0.25f);
 		else if(-2250.0f <= currentVelocity <= 2750.0f)
-			m_pLogicManager->TweakTimeOuts(1.2f);
+			m_pLogicManager->TweakTimeOuts(0.2f);
 		else
-			m_pLogicManager->TweakTimeOuts(1.0f);*/
+			m_pLogicManager->TweakTimeOuts(0.15f);*/
 
 		if(m_pScreen->GetInput().IsKeyDown(sf::Key::Space) && m_HornSound.GetStatus() != sf::Sound::Playing)
 			m_HornSound.Play();
@@ -867,6 +894,9 @@ void LevelState::DestroyImgManagerData()
 	m_ImgManager.Destroy("../../resources/images/paneles/cronometro.png");
 	m_ImgManager.Destroy("../../resources/images/paneles/velocimetro.png");
 	m_ImgManager.Destroy("../../resources/images/paneles/extinguished.png");
+	m_ImgManager.Destroy("../../resources/images/proyectiles/water2.png");
+	m_ImgManager.Destroy("../../resources/images/proyectiles/Ballonred.png");
+	m_ImgManager.Destroy("../../resources/images/proyectiles/Ballongreen.png");
 
 }
 

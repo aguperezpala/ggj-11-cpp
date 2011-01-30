@@ -41,7 +41,7 @@ void LoadingState::Init(sf::RenderWindow* screen)
 
 	LoadResources(screen);
 
-	m_DelayForNextState = 5.0f;
+	m_DelayForNextState = 2.5f;
 
 }
 
