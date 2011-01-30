@@ -48,7 +48,7 @@ void GameExplanationState::UpdateInputs(StateMachine* pStateMachine)
 void GameExplanationState::DrawTitle()
 {
 
-	assert(m_pText && "GameExplanationState::DrawTitle(): trying to use to a NULL text");
+	/*assert(m_pText && "GameExplanationState::DrawTitle(): trying to use to a NULL text");
 
 	// Title
 	m_pText->SetText("Game Explanation");
@@ -62,7 +62,7 @@ void GameExplanationState::DrawTitle()
 	// Default style
 	m_pText->SetStyle(sf::String::Regular);
 	m_pText->SetColor(sf::Color::White);
-	m_pText->SetSize(40.0f);
+	m_pText->SetSize(40.0f);*/
 
 }
 
@@ -72,16 +72,22 @@ void GameExplanationState::DrawContent()
 
 	assert(m_pText && "GameExplanationState::DrawControls(): trying to use to a NULL text");
 
+	m_pText->SetSize(30.0f);
+
 	// Menu Options
-	m_pText->SetText("In the Day: ");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f);
+	m_pText->SetText("You are the last fireman in the world and \n must extinguish all the fire in your road. \n");
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.25f, float(m_pScreen->GetHeight())*0.4f);
 	m_pScreen->Draw(*m_pText);
 
-	m_pText->SetText("-Kill white wolves.");
-	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 40.0f);
+	m_pText->SetText("Each time you extinguish a fire, you will \n be prized with more time in your timer.");
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.25f, float(m_pScreen->GetHeight())*0.4f + 60.0f);
 	m_pScreen->Draw(*m_pText);
 
-	m_pText->SetText("-Don't kill black wolves.");
+	m_pText->SetText("When your timer reaches zero, you will lose, \n because the world cannot be saved from the entire burn.");
+	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.25f, float(m_pScreen->GetHeight())*0.4f + 120.0f);
+	m_pScreen->Draw(*m_pText);
+
+	/*m_pText->SetText("-Don't kill black wolves.");
 	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 80.0f);
 	m_pScreen->Draw(*m_pText);
 
@@ -95,10 +101,10 @@ void GameExplanationState::DrawContent()
 
 	m_pText->SetText("-Don't kill white wolves.");
 	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 200.0f);
-	m_pScreen->Draw(*m_pText);
+	m_pScreen->Draw(*m_pText);*/
 
 	m_pText->SetText("Press ESC to go to main menu");
-	m_pText->SetSize(50.0f);
+	
 	m_pText->SetPosition(float(m_pScreen->GetWidth())*0.3f, float(m_pScreen->GetHeight())*0.4f + 300.0f);
 	m_pScreen->Draw(*m_pText);
 
