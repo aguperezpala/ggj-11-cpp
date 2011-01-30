@@ -22,6 +22,7 @@
 #include "CannonHelper.h"
 #include "LogicManager.h"
 #include "MainMenuState.h"
+#include "CollisionManager.h"
 #include <cassert>
 #include <iostream>
 #include <sstream>
@@ -29,7 +30,7 @@
 
 // Default constructor
 LevelState::LevelState() : State(), m_pScreen(0), m_pPlayer(0), m_pEnvironment(0), m_pMap1(0), m_pMap2(0), m_pEnvironmentManager(0), 
-						   m_pCannon(0), m_pLogicManager(0) {}
+						   m_pCannon(0), m_pLogicManager(0), m_DeltaTime(0.2f), m_CurrentDelta(0.0f) {}
 
 
 // Singleton
@@ -60,9 +61,13 @@ void LevelState::Init(sf::RenderWindow *pScreen)
 	m_AffectablesAnimation = levelFactory.GetAffectablesAnimation();
 	m_AffectorsAnimation = levelFactory.GetAffectorsAnimation();
 	m_MapAnimation = levelFactory.GetMapAnimation();
+	m_BulletAnimation = levelFactory.GetBulletAnimation();
+	m_ExplosionAnimation = levelFactory.GetExplosionAnimation();
 
 	InitPlayer();
 	InitCannon();
+	InitBullets();
+	InitExplosions();
 	InitEnvironmentManager();
 	InitScrollingManager();
 	InitLogicManager();
@@ -80,6 +85,8 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	m_pScreen->Draw(*m_pMap2);
 	DrawAffectables();
 	DrawAffectors();
+	DrawBullets();
+	DrawExplosions();
 	m_pScreen->Draw(*m_pPlayer);
 	m_pScreen->Draw(*m_pCannon);
 	
@@ -90,6 +97,7 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	UpdateAffectors();
 	m_pPlayer->Update();
 	m_pCannon->Update();
+	CollisionManager::getInstance()->update(m_pScreen->GetFrameTime());
 	
 	// Set the same coordinates as player
 	m_pCannon->SetX(m_pPlayer->GetPosition().x+40.0f);
@@ -185,6 +193,24 @@ void LevelState::Clear()
 	m_Affectables.clear();
 	m_Affectors.clear();
 
+	for(unsigned int i=0; i<m_Bullets.size(); i++)
+	{
+
+		delete m_Bullets[i];
+		m_Bullets[i] = 0;
+
+	}
+	m_Bullets.clear();
+
+	for(unsigned int i=0; i<m_Explosions.size(); i++)
+	{
+
+		delete m_Explosions[i];
+		m_Explosions[i] = 0;
+
+	}
+	m_Explosions.clear();
+
 }
 
 
@@ -212,6 +238,34 @@ void LevelState::InitCannon()
 	// Set the same coordinates as player
 	m_pCannon->SetX(m_pPlayer->GetPosition().x);
 	m_pCannon->SetY(m_pPlayer->GetPosition().y);
+
+}
+
+
+void LevelState::InitBullets()
+{
+
+	for(int i=0; i<20; i++)
+	{
+
+		GameEntity* entity = new GameEntity(m_BulletAnimation["bullet"]);
+		m_Bullets.push_back(entity);
+
+	}
+
+}
+
+
+void LevelState::InitExplosions()
+{
+
+	for(int i=0; i<20; i++)
+	{
+
+		GameEntity* entity = new GameEntity(m_ExplosionAnimation["explosion"]);
+		m_Explosions.push_back(entity);
+
+	}
 
 }
 
@@ -373,6 +427,46 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 
 		}
 
+
+		// Update delta time to shoot
+		m_CurrentDelta -= m_pScreen->GetFrameTime();
+
+		if(m_pScreen->GetInput().IsMouseButtonDown(sf::Mouse::Left))
+		{
+
+			if(m_CurrentDelta < 0.0f)
+			{
+
+				// Search for a free bullet
+				for(unsigned int i=0; i<m_Bullets.size();i++)
+				{
+
+					if(!m_Bullets[i]->IsActive())
+					{
+
+						// Activate the entity
+						m_Bullets[i]->SetActivation(true);
+						m_Bullets[i]->Play();
+						m_Bullets[i]->SetLoop(true);
+
+						sf::Vector2<int> mousePos;
+						mousePos.x = m_pScreen->GetInput().GetMouseX();
+						mousePos.y = m_pScreen->GetInput().GetMouseY();
+						sf::Vector2<float> cannonCenterPos = m_pCannon->GetCenterCordinates();
+	
+						sf::Vector2<float> bulletDirection = CannonHelper::getVectorDirection(cannonCenterPos, mousePos);
+						sf::Vector2<float> newCannonPos = CannonHelper::getCannonHole(m_pCannon->GetPosition(), m_pCannon->GetCurrentFrame(), m_pCannon->GetHeight()/2.3f);
+		
+						// Restore the delta time
+						m_CurrentDelta = m_DeltaTime;
+					}
+
+				}
+
+			}
+
+		}
+
 		// Update the offset of the affordable entities generation
 		float currentVelocity = ScrollingManager::getInstance()->getVelocity();
 		/*if(-250.0f <= currentVelocity <= 750.0f)
@@ -443,6 +537,34 @@ void LevelState::DrawAffectors()
 
 		if(m_Affectors[i]->IsActive())
 			m_pScreen->Draw(*(m_Affectors[i]));
+
+	}
+
+}
+
+
+void LevelState::DrawBullets()
+{
+
+	for (unsigned int i=0; i<m_Bullets.size();i++)
+	{
+	
+		if(m_Bullets[i]->IsActive())
+			m_pScreen->Draw(*(m_Bullets[i]));
+
+	}
+
+}
+
+
+void LevelState::DrawExplosions()
+{
+
+	for (unsigned int i=0; i<m_Explosions.size();i++)
+	{
+
+		if(m_Explosions[i]->IsActive())
+			m_pScreen->Draw(*(m_Explosions[i]));
 
 	}
 

@@ -45,7 +45,7 @@ int CannonHelper::getAnimationIndex(const sf::Vector2<int> &mousePos,
 
 }
 
-sf::Vector2f CannonHelper::getVectoriDirection(const sf::Vector2<float> &Current,
+sf::Vector2f CannonHelper::getVectorDirection(const sf::Vector2<float> &Current,
 		const sf::Vector2<int> &Target)
 {
 

@@ -31,7 +31,7 @@ int getAnimationIndex(const sf::Vector2<int> &mPos, const sf::Vector2<float> &cP
 
 /* Functio used to get the vector direction between the cannon and the mousePosition
  * The vector returned it is normalized to 1 */
-sf::Vector2f getVectoriDirection(const sf::Vector2<float> &cannonPos,
+sf::Vector2f getVectorDirection(const sf::Vector2<float> &cannonPos,
 		const sf::Vector2<int> &mousePos);
 
 /* Function to obtain the position of the extreme of the cannon, used to get
