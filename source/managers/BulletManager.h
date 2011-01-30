@@ -31,6 +31,8 @@ public:
 	 * 		ent			!= NULL
 	 * 		vectMvmnt 	vector of movement normalized with the velocity
 	 * NOTE: the vector will be multiply with the elapsed time of each frame
+	 * The bullets will be added to the scrolling to simulate a more realistic
+	 * experience XD
 	 * */
 	void addNewBullet(GameEntity *ent, const sf::Vector2f &vectMvmnt);
 

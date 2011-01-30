@@ -6,6 +6,7 @@
  */
 
 #include "BulletManager.h"
+#include "ScrollingManager.h"
 
 BulletManager *BulletManager::mInstance = 0;
 
@@ -29,6 +30,8 @@ void BulletManager::addNewBullet(GameEntity *ent, const sf::Vector2f &vectMvmnt)
 {
 	ASSERT(ent);
 	//ASSERT(!existEntity(ent));
+	if(!ent->IsActive())
+		return;
 
 	std::map<int, std::pair<GameEntity *, sf::Vector2f> >::iterator it;
 
@@ -40,6 +43,7 @@ void BulletManager::addNewBullet(GameEntity *ent, const sf::Vector2f &vectMvmnt)
 		// replace the vector of the old
 		(*it).second.second = vectMvmnt;
 	}
+	ScrollingManager::getInstance()->insertEntity(ent);
 }
 
 /* Remove entity from the Manager (must exist) */
@@ -48,6 +52,7 @@ void BulletManager::removeBullet(GameEntity *ent)
 	ASSERT(ent);
 	ASSERT(existEntity(ent));
 
+	ScrollingManager::getInstance()->removeEntity(ent->GetId());
 	mBullets.erase(ent->GetId());
 }
 
@@ -70,6 +75,7 @@ void BulletManager::update(float dTime)
 		// we must erase all that entities that are not more in the scene
 		for(it = auxMap.begin(); it != auxMap.end(); ++it) {
 			(*it).second.first->SetActivation(false);
+			ScrollingManager::getInstance()->removeEntity((*it).second.first->GetId());
 			mBullets.erase((*it).second.first->GetId());
 		}
 	}
