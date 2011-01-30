@@ -102,8 +102,11 @@ private:
 
 	std::vector<GameEntity*> m_Affectables;
 	std::vector<GameEntity*> m_Affectors;
+	std::list<GameEntity*> m_AffectorsList;
 
 	std::vector<GameEntity*> m_Bullets;
+	std::list<GameEntity*> m_BulletsList;
+
 	std::vector<GameEntity*> m_Explosions;
 
 	float m_DeltaTime;    // Delta time to wait before perform a shoot.

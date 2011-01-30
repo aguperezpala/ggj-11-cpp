@@ -257,8 +257,6 @@ void LevelState::InitBullets()
 
 	}
 
-
-
 }
 
 
