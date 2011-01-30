@@ -26,7 +26,8 @@ void ScrollingManager::insertEntity(GameEntity *ent)
 {
 	// preconditions
 	ASSERT(ent != 0);
-	ASSERT(!existGameEntity(ent->GetId()));
+	if(existGameEntity(ent->GetId()))
+		return;
 
 	mScrollableEntities[ent->GetId()] = ent;
 }
