@@ -48,6 +48,11 @@ void ScrollingManager::removeEntity(GameEntity *ent)
 	removeEntity(ent->GetId());
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void ScrollingManager::removeAllEntities(void)
+{
+	mScrollableEntities.clear();
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 void ScrollingManager::setActive(bool active)

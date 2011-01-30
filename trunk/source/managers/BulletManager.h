@@ -23,6 +23,9 @@ public:
 	 * the screen and it will call the */
 	static BulletManager *getInstance();
 
+	/* Ugly cochinada to set the parameters of the size of the windows */
+	void setWindowsSize(float screenWidth, float screenHeight);
+
 	/* Adds an entity to be processed (for collision detections and
 	 * moved over the level.
 	 * REQUIRES:
@@ -57,10 +60,24 @@ protected:
 			return false;
 	}
 
+	/* Function to check if a GameEntity it is out of the Screen */
+	inline bool isEntityInScreen(const GameEntity* ent)
+	{
+		if(((ent->GetPosition().x + ent->GetWidth()) < 0.0f) ||
+				(ent->GetPosition().x  > mScreenWidth) ||
+				((ent->GetPosition().y + ent->GetHeight()) < 0.0f) ||
+				(ent->GetPosition().y  > mScreenHeight))
+			return false;
+		return true;
+	}
+
 private:
 	static BulletManager *mInstance;
 	// the map of the objects to track
 	std::list<std::pair<GameEntity *, sf::Vector2f> > mBullets;
+	// screen size
+	float mScreenWidth;
+	float mScreenHeight;
 };
 
 #endif /* BULLETMANAGER_H_ */

@@ -37,6 +37,7 @@ public:
 	 */
 	void removeEntity(GameEntity *ent);
 	void removeEntity(int entityID);
+	void removeAllEntities(void);
 
 	/* Activate the scrolling / deactivate the scrolling (its easier do not calling
 	 * the update function XD) */

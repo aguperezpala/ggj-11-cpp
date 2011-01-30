@@ -63,7 +63,7 @@ public:
 	void removeOneSource(GameEntity *source);
 
 	/* Stop/Start Checking collisions */
-	void SetActive(bool active) {mActive = false;};
+	void setActive(bool active) {mActive = active;};
 	bool getActive(void) const {return mActive;}
 
 protected:
