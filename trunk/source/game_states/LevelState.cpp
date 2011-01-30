@@ -23,6 +23,7 @@
 #include "LogicManager.h"
 #include "MainMenuState.h"
 #include "CollisionManager.h"
+#include "ThanksState.h"
 #include "BulletManager.h"
 #include "FXManager.h"
 #include <cassert>
@@ -80,6 +81,10 @@ void LevelState::Init(sf::RenderWindow *pScreen)
 	InitFont();
 	InitText();
 	InitPanels();
+	InitSounds();
+
+	m_ExtinctionsSucceded = 0;
+	m_TotalTime = 60.0f;
 		
 }
 
@@ -103,6 +108,8 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	ScrollingManager::getInstance()->update(m_pScreen->GetFrameTime());
 	m_pLogicManager->Update(m_pScreen->GetFrameTime());
 	m_pEnvironmentManager->update(m_pScreen->GetFrameTime());
+	UpdateBullets();
+	UpdateExplosions();
 	UpdateAffectables();
 	UpdateAffectors();
 	m_pPlayer->Update();
@@ -114,8 +121,21 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	// Set the same coordinates as player
 	m_pCannon->SetX(m_pPlayer->GetPosition().x+52.0f);
 	m_pCannon->SetY(m_pPlayer->GetPosition().y-3.0f);
+	
+	// Check if the player loosed
+	if(m_TotalTime <= 0.0f)
+		pStateMachine->ChangeState(ThanksState::Instance());
+		
 
-	CheckInput(pStateMachine);
+	else
+	{
+	
+		m_TotalTime -= m_pScreen->GetFrameTime() * 1.5f;
+		CheckInput(pStateMachine);
+
+	}
+
+	
 
 }
 
@@ -307,6 +327,8 @@ void LevelState::Clear()
 
 	}
 
+	PanelManager::getInstance()->RemoveAll();
+	FXManager::getInstance()->RemoveAll();
 
 }
 
@@ -315,6 +337,7 @@ void LevelState::InitPlayer()
 {
 
 	m_pPlayer = new GameEntity();
+	m_pPlayer->SetFrameTime(0.3f);
 	m_pPlayer->SetAnim(m_PlayerAnimations["straight"]);
 	m_pPlayer->Play();
 	m_pPlayer->SetLoop(true);
@@ -345,7 +368,9 @@ void LevelState::InitBullets()
 	for(int i=0; i<20; i++)
 	{
 
-		GameEntity* entity = new GameEntity(m_BulletAnimation["bullet"]);
+		GameEntity* entity = new GameEntity(m_BulletAnimation["bullet"], 0.2f);
+		entity->Play();
+		entity->SetLoop(true);
 		m_Bullets.push_back(entity);
 		m_BulletsList.push_back(entity);
 
@@ -360,7 +385,7 @@ void LevelState::InitExplosions()
 	for(int i=0; i<20; i++)
 	{
 
-		GameEntity* entity = new GameEntity(m_ExplosionAnimation["explosion"]);
+		GameEntity* entity = new GameEntity(m_ExplosionAnimation["explosion"], 0.05f);
 		m_Explosions.push_back(entity);
 
 	}
@@ -436,15 +461,24 @@ void LevelState::InitLogicManager()
 	}
 
 	
-	for(unsigned int i=0; i<4; i++)
+	for(unsigned int i=0; i<2; i++)
 	{
 
-		GameEntity* dummy = new GameEntity(m_AffectorsAnimation["fire"]);
-		dummy->Play();
-		dummy->SetLoop(true);
-		m_Affectors.push_back(dummy);
-		m_AffectorsList.push_back(dummy);
-		m_pLogicManager->AddAffector(dummy);
+		for(int j=1; j<3; j++)
+		{
+
+			ss.str("");
+			ss << j;
+
+			std::string name = "fire" + ss.str();
+			GameEntity* dummy = new GameEntity(m_AffectorsAnimation[name.c_str()], 0.3f);
+			dummy->Play();
+			dummy->SetLoop(true);
+			m_Affectors.push_back(dummy);
+			m_AffectorsList.push_back(dummy);
+			m_pLogicManager->AddAffector(dummy);
+
+		}
 
 	}
 	
@@ -491,6 +525,21 @@ void LevelState::InitPanels()
 }
 
 
+void LevelState::InitSounds()
+{
+
+	bool correctLoading = m_HornBuffer.LoadFromFile("../../resources/sounds/horn.wav");
+	assert(correctLoading);
+
+	m_HornSound.SetBuffer(m_HornBuffer);
+
+	//m_AmbientMusic.Set
+
+
+
+}
+
+
 void LevelState::CheckInput(StateMachine* pStateMachine)
 {
 
@@ -510,7 +559,7 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 	else
 	{
 
-		if(m_pScreen->GetInput().IsKeyDown(sf::Key::Up) && m_pPlayer->GetPosition().y > 125.0f)
+		if((m_pScreen->GetInput().IsKeyDown(sf::Key::Up) || m_pScreen->GetInput().IsKeyDown(sf::Key::W)) && m_pPlayer->GetPosition().y > 125.0f)
 		{
 
 			// Set position and animation
@@ -521,7 +570,7 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 
 		}
 
-		else if(m_pScreen->GetInput().IsKeyDown(sf::Key::Down) && m_pPlayer->GetPosition().y + m_pPlayer->GetHeight() < 540.0f)
+		else if((m_pScreen->GetInput().IsKeyDown(sf::Key::Down) || m_pScreen->GetInput().IsKeyDown(sf::Key::S)) && m_pPlayer->GetPosition().y + m_pPlayer->GetHeight() < 540.0f)
 		{
 
 			// Set position and animation
@@ -542,7 +591,7 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 
 		}
 
-		if (m_pScreen->GetInput().IsKeyDown(sf::Key::Left))
+		if (m_pScreen->GetInput().IsKeyDown(sf::Key::Left) || m_pScreen->GetInput().IsKeyDown(sf::Key::A))
 		{
 
 			float currentVelocity = ScrollingManager::getInstance()->getVelocity();
@@ -554,7 +603,7 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 
 		}
 
-		else if (m_pScreen->GetInput().IsKeyDown(sf::Key::Right))
+		else if (m_pScreen->GetInput().IsKeyDown(sf::Key::Right) || m_pScreen->GetInput().IsKeyDown(sf::Key::D))
 		{
 
 			float currentVelocity = ScrollingManager::getInstance()->getVelocity();
@@ -627,6 +676,9 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 			m_pLogicManager->TweakTimeOuts(1.2f);
 		else
 			m_pLogicManager->TweakTimeOuts(1.0f);*/
+
+		if(m_pScreen->GetInput().IsKeyDown(sf::Key::Space) && m_HornSound.GetStatus() != sf::Sound::Playing)
+			m_HornSound.Play();
 
 	}
 
@@ -717,6 +769,24 @@ void LevelState::DrawExplosions()
 }
 
 
+void LevelState::UpdateBullets()
+{
+
+	for(unsigned int i=0; i<m_Bullets.size(); i++)
+		m_Bullets[i]->Update();
+
+}
+
+
+void LevelState::UpdateExplosions()
+{
+
+	for(unsigned int i=0; i<m_Explosions.size(); i++)
+		m_Explosions[i]->Update();
+
+}
+
+
 void LevelState::UpdateAffectables()
 {
 
@@ -753,15 +823,26 @@ void LevelState::UpdatePanels()
 
 	PanelManager::getInstance()->update(m_pScreen);
 
-	m_pCronometroText->SetText("50");
-
+	// Update cronometer time
 	std::stringstream ss;
-	ss << int(ScrollingManager::getInstance()->getVelocity() / -10.0f);
+	ss << int(m_TotalTime);
 	std::string str = ss.str();
+	m_pCronometroText->SetText(str.c_str());
+
+	ss.str("");
+
+	// Update velocimeter 
+	ss << int(ScrollingManager::getInstance()->getVelocity() / -10.0f);
+	str = ss.str();
 	str +=	" km";
 	m_pVelocimetroText->SetText(str.c_str());
 
-	m_pExtinguishedText->SetText("50");
+	ss.str("");
+
+	// Update total extinctions
+	ss << m_ExtinctionsSucceded;
+	str = ss.str();
+	m_pExtinguishedText->SetText(str.c_str());
 
 
 }
@@ -775,12 +856,13 @@ void LevelState::DestroyImgManagerData()
 	m_ImgManager.Destroy("../../resources/images/House/House03.png");
 	m_ImgManager.Destroy("../../resources/images/House/House04.png");
 	m_ImgManager.Destroy("../../resources/images/fire/fireee.png");
+	m_ImgManager.Destroy("../../resources/images/fire/fireend.png");
 	m_ImgManager.Destroy("../../resources/images/background/correjido prueba.png");
-	m_ImgManager.Destroy("../../resources/images/proyectiles/test_projectile.png");
-	m_ImgManager.Destroy("../../resources/images/proyectiles/proyectil1.png");
-	m_ImgManager.Destroy("../../resources/images/truck/TruckFordward1.png");
-	m_ImgManager.Destroy("../../resources/images/truck/TruckUp1.png");
-	m_ImgManager.Destroy("../../resources/images/truck/TruckDown1.png");
+	m_ImgManager.Destroy("../../resources/images/proyectiles/Ballon.png");
+	m_ImgManager.Destroy("../../resources/images/proyectiles/water.png");
+	m_ImgManager.Destroy("../../resources/images/truck/TruckFordward.png");
+	m_ImgManager.Destroy("../../resources/images/truck/TruckUp.png");
+	m_ImgManager.Destroy("../../resources/images/truck/TruckDown.png");
 	m_ImgManager.Destroy("../../resources/images/truck/cannon.png");
 	m_ImgManager.Destroy("../../resources/images/paneles/cronometro.png");
 	m_ImgManager.Destroy("../../resources/images/paneles/velocimetro.png");
@@ -816,5 +898,14 @@ void LevelState::InitText()
 	m_pExtinguishedText->SetSize(30.0f);
 	m_pExtinguishedText->SetStyle(sf::String::Bold);
 	m_pExtinguishedText->SetColor(sf::Color::White);
+
+}
+
+
+void LevelState::IncreaseExtinctions()
+{
+
+	m_ExtinctionsSucceded++;
+	m_TotalTime += 2.0f;
 
 }

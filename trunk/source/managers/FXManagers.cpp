@@ -107,3 +107,23 @@ void FXManager::CheckEndOfAnimation(std::vector<GameEntity*>* animations)
 	}
 
 }
+
+
+void FXManager::InsertSound(const std::string &path)
+{
+	
+	sound sn;
+	assert(sn.sBuffer.LoadFromFile(path.c_str()));
+	sn.sSound.SetBuffer(sn.sBuffer);
+
+	m_SoundsMap.insert(std::pair<std::string, sound> (path, sn));
+
+}
+
+
+void FXManager::PlaySound(const std::string& path)
+{
+
+
+
+}

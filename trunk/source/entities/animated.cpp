@@ -82,7 +82,7 @@ void Animated::SetAnim(const Anim& anim, bool play)
 {
     my_anim = &anim;
  
-    Stop();
+    //Stop();
     
     if (play)
         Play();

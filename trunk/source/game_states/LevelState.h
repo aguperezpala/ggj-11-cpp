@@ -22,6 +22,7 @@
 #include <list>
 #include "FireBulletCollisionAction.h"
 #include "PanelManager.h"
+#include <SFML/Audio.hpp>
 
 
 using namespace sftools;
@@ -49,6 +50,8 @@ public:
 	void Execute(StateMachine* pStateMachine);
 	void Clear();
 
+	void IncreaseExtinctions();
+	
 
 private:
 
@@ -65,6 +68,7 @@ private:
 	void InitCollisionManager();
 	void InitFXManager();
 	void InitPanels();
+	void InitSounds();
 
 	void CheckInput(StateMachine* pStateMachine);
 	void CheckKeyboard(StateMachine* pStateMachine);
@@ -76,6 +80,8 @@ private:
 	void DrawBullets();
 	void DrawExplosions();
 
+	void UpdateBullets();
+	void UpdateExplosions();
 	void UpdateAffectables();
 	void UpdateAffectors();
 	void UpdatePanels();
@@ -137,6 +143,15 @@ private:
 	PanelManager::Panel* m_pCronometroPanel;
 	PanelManager::Panel* m_pVelocimetroPanel;
 	PanelManager::Panel* m_pExtinguishedPanel;
+
+	int m_ExtinctionsSucceded;
+
+	float m_TotalTime;
+
+	sf::SoundBuffer m_HornBuffer;
+	sf::Sound m_HornSound;
+
+	sf::Music m_AmbientMusic;
 
 };
 
