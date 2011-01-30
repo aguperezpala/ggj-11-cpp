@@ -27,12 +27,19 @@ void BulletManager::setWindowsSize(float screenWidth, float screenHeight)
 
 void BulletManager::addNewBullet(GameEntity *ent, const sf::Vector2f &vectMvmnt)
 {
-	//ASSERT(ent);
+	ASSERT(ent);
 	//ASSERT(!existEntity(ent));
-	if(existEntity(ent))
-		return;
 
-	mBullets.push_back(std::pair<GameEntity *, sf::Vector2f>(ent, vectMvmnt));
+	std::map<int, std::pair<GameEntity *, sf::Vector2f> >::iterator it;
+
+	it = mBullets.find(ent->GetId());
+	if(it == mBullets.end()) {
+		// add new one
+		mBullets[ent->GetId()] = std::pair<GameEntity *, sf::Vector2f>(ent, vectMvmnt);
+	} else {
+		// replace the vector of the old
+		(*it).second.second = vectMvmnt;
+	}
 }
 
 /* Remove entity from the Manager (must exist) */
@@ -41,38 +48,29 @@ void BulletManager::removeBullet(GameEntity *ent)
 	ASSERT(ent);
 	ASSERT(existEntity(ent));
 
-	std::list<std::pair<GameEntity *, sf::Vector2f> >::iterator it;
-
-	for(it = mBullets.begin(); it != mBullets.end(); ++it) {
-				if((*it).first == ent){
-					mBullets.remove(*it);
-					return;
-				}
-
-	}
+	mBullets.erase(ent->GetId());
 }
 
 /* update the logic of the manager */
 void BulletManager::update(float dTime)
 {
-	std::list<std::pair<GameEntity *, sf::Vector2f> >::iterator it;
-	std::list<std::pair<GameEntity *, sf::Vector2f> > auxList;
+	std::map<int, std::pair<GameEntity *, sf::Vector2f> >::iterator it;
+	std::map<int, std::pair<GameEntity *, sf::Vector2f> > auxMap;
 
 	for(it = mBullets.begin(); it != mBullets.end(); ++it) {
-		//(*it).first->Move((*it).second.x /** dTime*/,
-		//		(*it).second.y /** dTime*/);
-		(*it).first->Move((*it).second);
-		// now check if the entity is in the scene or not.
-		if(!isEntityInScreen((*it).first)) {
-			auxList.push_back((*it));
+		if(!(*it).second.first->IsActive() || !isEntityInScreen((*it).second.first)){
+			auxMap.insert(*it);
+			continue;
 		}
+
+		(*it).second.first->Move((*it).second.second);
 	}
 
-	if(auxList.size() > 0) {
+	if(auxMap.size() > 0) {
 		// we must erase all that entities that are not more in the scene
-		for(it = auxList.begin(); it != auxList.end(); ++it) {
-			(*it).first->SetActivation(false);
-			mBullets.remove(*it);
+		for(it = auxMap.begin(); it != auxMap.end(); ++it) {
+			(*it).second.first->SetActivation(false);
+			mBullets.erase((*it).second.first->GetId());
 		}
 	}
 
