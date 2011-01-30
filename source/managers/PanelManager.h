@@ -49,6 +49,8 @@ public:
 	/* Draw panels */
 	void update(sf::RenderWindow *w);
 
+	void RemoveAll() { mPanels.clear(); }
+
 
 protected:
 	PanelManager();
