@@ -19,6 +19,7 @@
 #include "State.h"
 #include "ImageManager.h"
 #include "anim.hpp"
+#include <list>
 
 
 using namespace sftools;
