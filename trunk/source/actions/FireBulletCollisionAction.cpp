@@ -39,7 +39,7 @@ void FireBulletCollisionAction::handleCollision(GameEntity *source, GameEntity *
 
 	// we call the FXManager and say to load an bullet explosion animation in
 	// the fire position
-	FXManager::getInstance()->PlayAnimation("water", firePosition);
+	FXManager::getInstance()->PlayAnimation("water", firePosition, true);
 
 	// Probably we want to do some performance improvments for the CollisionManager.
 }

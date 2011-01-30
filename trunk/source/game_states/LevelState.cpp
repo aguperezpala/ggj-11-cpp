@@ -24,6 +24,7 @@
 #include "MainMenuState.h"
 #include "CollisionManager.h"
 #include "BulletManager.h"
+#include "FXManager.h"
 #include <cassert>
 #include <iostream>
 #include <sstream>
@@ -72,6 +73,8 @@ void LevelState::Init(sf::RenderWindow *pScreen)
 	InitEnvironmentManager();
 	InitScrollingManager();
 	InitLogicManager();
+	InitCollisionManager();
+	InitFXManager();
 	BulletManager::getInstance()->setWindowsSize(m_pScreen->GetWidth(), m_pScreen->GetHeight());
 
 	
@@ -102,6 +105,7 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	m_pCannon->Update();
 	CollisionManager::getInstance()->update(m_pScreen->GetFrameTime());
 	BulletManager::getInstance()->update(m_pScreen->GetFrameTime());
+	FXManager::getInstance()->update(m_pScreen->GetFrameTime());
 	
 	// Set the same coordinates as player
 	m_pCannon->SetX(m_pPlayer->GetPosition().x+40.0f);
@@ -355,6 +359,23 @@ void LevelState::InitLogicManager()
 
 	}
 	
+}
+
+
+void LevelState::InitCollisionManager()
+{
+
+	CollisionManager::getInstance()->setActive(true);
+	CollisionManager::getInstance()->addCollisionLogic(&m_BulletsList, &m_AffectorsList, &m_FireBullet);
+
+}
+
+
+void LevelState::InitFXManager()
+{
+
+	FXManager::getInstance()->InsertAnimations("water", m_Explosions);
+
 }
 
 

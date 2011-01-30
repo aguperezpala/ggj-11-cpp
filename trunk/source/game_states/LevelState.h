@@ -20,6 +20,7 @@
 #include "ImageManager.h"
 #include "anim.hpp"
 #include <list>
+#include "FireBulletCollisionAction.h"
 
 
 using namespace sftools;
@@ -60,6 +61,8 @@ private:
 	void InitEnvironment();
 	void InitScrollingManager();
 	void InitLogicManager();
+	void InitCollisionManager();
+	void InitFXManager();
 
 	void CheckInput(StateMachine* pStateMachine);
 	void CheckKeyboard(StateMachine* pStateMachine);
@@ -112,6 +115,8 @@ private:
 
 	float m_DeltaTime;    // Delta time to wait before perform a shoot.
 	float m_CurrentDelta; // Current time to wait before perform a shoot.
+
+	FireBulletCollisionAction m_FireBullet;
 
 };
 
