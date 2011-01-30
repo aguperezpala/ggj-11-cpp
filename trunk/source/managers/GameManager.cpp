@@ -16,8 +16,8 @@
 #include "GameManager.h"
 #include <cassert>
 #include <sstream>
-#include "game_states/MainMenuState.h"
-#include "game_states/StateMachine.h"
+#include "MainMenuState.h"
+#include "StateMachine.h"
 
 
 // Constructor
