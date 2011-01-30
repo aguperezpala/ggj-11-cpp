@@ -73,6 +73,7 @@ void ControlsState::DrawContent()
 	assert(m_pText && "ControlsState::DrawControls(): trying to use to a NULL text");
 
 	m_pText->SetSize(30.0f);
+	m_pText->SetColor(sf::Color::Blue);
 
 	// Menu Options
 	m_pText->SetText("Left/Right Arrows: Acceleration");

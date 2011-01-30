@@ -73,6 +73,7 @@ void GameExplanationState::DrawContent()
 	assert(m_pText && "GameExplanationState::DrawControls(): trying to use to a NULL text");
 
 	m_pText->SetSize(30.0f);
+	m_pText->SetColor(sf::Color::Blue);
 
 	// Menu Options
 	m_pText->SetText("You are the last fireman in the world and \n must extinguish all the fire in your road. \n");

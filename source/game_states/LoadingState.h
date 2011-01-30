@@ -17,7 +17,7 @@
 // Headers
 //
 #include "State.h"
-#include "managers/ImageManager.h"
+#include "ImageManager.h"
 
 
 class LoadingState : public State

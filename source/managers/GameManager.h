@@ -17,8 +17,8 @@
 //
 // Headers
 //
-#include "managers/ImageManager.h"
-#include "utilities/Fps.h"
+#include "ImageManager.h"
+#include "Fps.h"
 
 
 // Forward declarations
