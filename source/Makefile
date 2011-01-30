@@ -60,7 +60,7 @@
 MY_CFLAGS =
 
 # The linker options.
-MY_LIBS   = -lsfml-graphics -lsfml-window -lsfml-system -lpthread
+MY_LIBS   = -lsfml-graphics -lsfml-window -lsfml-system -lpthread -lsfml-audio
 
 # The pre-processor options used by the cpp (man cpp for more).
 CPPFLAGS  = -Wall -ansi -I. -Igame_states -Imanagers -I utilities -Icollision -Ientities -Ifactory -DDEBUG \
