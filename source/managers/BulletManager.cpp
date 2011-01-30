@@ -68,7 +68,7 @@ void BulletManager::update(float dTime)
 			continue;
 		}
 
-		(*it).second.first->Move((*it).second.second);
+		(*it).second.first->Move((*it).second.second * dTime);
 	}
 
 	if(auxMap.size() > 0) {

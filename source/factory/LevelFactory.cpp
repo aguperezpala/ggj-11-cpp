@@ -112,8 +112,8 @@ std::map<std::string, Anim> LevelFactory::GetBulletAnimation()
 {
 
 	std::map<std::string, Anim> animMap;
-	m_ImgManager->Load("../../resources/images/proyectiles/bombucha.png");
-	animMap.insert(std::pair<std::string, Anim>("bullet", GetAnimFromImage((*m_ImgManager)["../../resources/images/proyectiles/bombucha.png"], 100.0f, 150.0f, 1)));
+	m_ImgManager->Load("../../resources/images/proyectiles/test_projectile.png");
+	animMap.insert(std::pair<std::string, Anim>("bullet", GetAnimFromImage((*m_ImgManager)["../../resources/images/proyectiles/test_projectile.png"], 20.0f, 20.0f, 1)));
 
 	return animMap;
 
