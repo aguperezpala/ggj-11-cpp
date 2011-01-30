@@ -66,13 +66,15 @@ std::map<std::string, Anim> LevelFactory::GetAffectablesAnimation()
 
 	std::map<std::string, Anim> animMap;
 
+	m_ImgManager->Load("../../resources/images/House/House01.png");
 	m_ImgManager->Load("../../resources/images/House/House02.png");
 	m_ImgManager->Load("../../resources/images/House/House03.png");
 	m_ImgManager->Load("../../resources/images/House/House04.png");
 		
-	animMap.insert(std::pair<std::string, Anim> ("house1", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House02.png"], 122.0f, 110.0f, 1)));
-	animMap.insert(std::pair<std::string, Anim>("house2", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House03.png"], 122.0f, 110.0f, 1)));
-	animMap.insert(std::pair<std::string, Anim>("house3", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House04.png"], 122.0f, 110.0f, 1)));
+	animMap.insert(std::pair<std::string, Anim> ("house1", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House01.png"], 122.0f, 110.0f, 1)));
+	animMap.insert(std::pair<std::string, Anim> ("house2", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House02.png"], 122.0f, 110.0f, 1)));
+	animMap.insert(std::pair<std::string, Anim>("house3", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House03.png"], 122.0f, 110.0f, 1)));
+	animMap.insert(std::pair<std::string, Anim>("house4", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House04.png"], 122.0f, 110.0f, 1)));
 	
 
 	return animMap;
@@ -132,6 +134,24 @@ std::map<std::string, Anim> LevelFactory::GetExplosionAnimation()
 }
 
 
+std::map<std::string, Anim> LevelFactory::GetPanelsAnimation()
+{
+
+	std::map<std::string, Anim> animMap;
+	m_ImgManager->Load("../../resources/images/paneles/cronometro.png");
+	animMap.insert(std::pair<std::string, Anim>("cronometro", GetAnimFromImage((*m_ImgManager)["../../resources/images/paneles/cronometro.png"], 59.0f, 71.0f, 1)));
+
+	m_ImgManager->Load("../../resources/images/paneles/velocimetro.png");
+	animMap.insert(std::pair<std::string, Anim>("velocimetro", GetAnimFromImage((*m_ImgManager)["../../resources/images/paneles/velocimetro.png"], 64.0f, 32.0f, 1)));
+
+	m_ImgManager->Load("../../resources/images/paneles/extinguished.png");
+	animMap.insert(std::pair<std::string, Anim>("extinguished", GetAnimFromImage((*m_ImgManager)["../../resources/images/paneles/extinguished.png"], 64.0f, 32.0f, 1)));
+
+	return animMap;
+
+}
+
+
 Anim LevelFactory::GetPlayerStraightAnimation()
 {
 
@@ -163,7 +183,7 @@ Anim LevelFactory::GetPlayerWeaponAnimation()
 {
 
 	m_ImgManager->Load("../../resources/images/truck/cannon.png");
-	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/cannon.png"], 97.0f, 88.0f, 36);
+	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/cannon.png"], 97.0f, 97.0f, 36);
 
 }
 
