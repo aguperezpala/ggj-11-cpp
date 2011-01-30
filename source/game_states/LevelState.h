@@ -63,6 +63,7 @@ private:
 	void InitLogicManager();
 	void InitCollisionManager();
 	void InitFXManager();
+	void InitPanels();
 
 	void CheckInput(StateMachine* pStateMachine);
 	void CheckKeyboard(StateMachine* pStateMachine);
@@ -79,6 +80,9 @@ private:
 	
 	void DestroyImgManagerData();
 
+	void InitFont();
+	void InitText();
+	
 	sf::RenderWindow* m_pScreen;
 
 	ImageManager m_ImgManager;
@@ -89,6 +93,7 @@ private:
 	std::map<std::string, Anim> m_MapAnimation;
 	std::map<std::string, Anim> m_BulletAnimation;
 	std::map<std::string, Anim> m_ExplosionAnimation;
+	std::map<std::string, Anim> m_PanelsAnimation;
 
 	GameEntity* m_pPlayer;
 
@@ -117,6 +122,15 @@ private:
 	float m_CurrentDelta; // Current time to wait before perform a shoot.
 
 	FireBulletCollisionAction m_FireBullet;
+
+	sf::Font* m_pFont;
+	sf::String* m_pCronometroText;
+	sf::String* m_pVelocimetroText;
+	sf::String* m_pExtinguishedText;
+
+	GameEntity* m_pCronometro;
+	GameEntity* m_pVelocimetro;
+	GameEntity* m_pExtinguished;
 
 };
 

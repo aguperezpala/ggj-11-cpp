@@ -65,6 +65,7 @@ void LevelState::Init(sf::RenderWindow *pScreen)
 	m_MapAnimation = levelFactory.GetMapAnimation();
 	m_BulletAnimation = levelFactory.GetBulletAnimation();
 	m_ExplosionAnimation = levelFactory.GetExplosionAnimation();
+	m_PanelsAnimation = levelFactory.GetPanelsAnimation();
 
 	InitPlayer();
 	InitCannon();
@@ -76,8 +77,10 @@ void LevelState::Init(sf::RenderWindow *pScreen)
 	InitCollisionManager();
 	InitFXManager();
 	BulletManager::getInstance()->setWindowsSize(m_pScreen->GetWidth(), m_pScreen->GetHeight());
-
-	
+	InitPanels();
+	InitFont();
+	InitText();
+		
 }
 
 
@@ -108,8 +111,8 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	FXManager::getInstance()->update(m_pScreen->GetFrameTime());
 	
 	// Set the same coordinates as player
-	m_pCannon->SetX(m_pPlayer->GetPosition().x+40.0f);
-	m_pCannon->SetY(m_pPlayer->GetPosition().y);
+	m_pCannon->SetX(m_pPlayer->GetPosition().x+52.0f);
+	m_pCannon->SetY(m_pPlayer->GetPosition().y-3.0f);
 
 	CheckInput(pStateMachine);
 
@@ -219,6 +222,65 @@ void LevelState::Clear()
 	}
 	m_Explosions.clear();
 
+	if(m_pFont)
+	{
+
+		delete m_pFont;
+		m_pFont = 0;
+
+	}
+
+	if(m_pCronometroText)
+	{
+
+		delete m_pCronometroText;
+		m_pCronometroText = 0;
+
+	}
+
+	if(m_pVelocimetroText)
+	{
+
+		delete m_pVelocimetroText;
+		m_pVelocimetroText = 0;
+
+	}
+
+	if(m_pExtinguishedText)
+	{
+
+		delete m_pExtinguishedText;
+		m_pExtinguishedText = 0;
+
+	}
+
+	if(m_pCronometro)
+	{
+
+		delete m_pCronometro;
+		m_pCronometro = 0;
+
+	}
+
+	if(m_pVelocimetro)
+	{
+
+		delete m_pVelocimetro;
+		m_pVelocimetro = 0;
+		
+	}
+
+	if(m_pExtinguished)
+	{
+
+		delete m_pExtinguished;
+		m_pExtinguished = 0; 
+
+	}
+
+	CollisionManager::getInstance()->RemoveAll();
+
+
 }
 
 
@@ -244,8 +306,8 @@ void LevelState::InitCannon()
 	m_pCannon->SetActivation(true);
 
 	// Set the same coordinates as player
-	m_pCannon->SetX(m_pPlayer->GetPosition().x);
-	m_pCannon->SetY(m_pPlayer->GetPosition().y);
+	m_pCannon->SetX(m_pPlayer->GetPosition().x+52.0f);
+	m_pCannon->SetY(m_pPlayer->GetPosition().y-3.0f);
 
 }
 
@@ -326,14 +388,14 @@ void LevelState::InitLogicManager()
 
 
 	std::stringstream ss;
-	for(int i=1; i<4; i++)
+	for(int i=0; i<3; i++)
 	{
 
-		for(int j=0; j<4; j++)
+		for(int j=1; j<5; j++)
 		{
 
 			ss.str("");
-			ss << i;
+			ss << j;
 
 			std::string name = "house" + ss.str();
 			GameEntity* dummy = new GameEntity(m_AffectablesAnimation[name.c_str()]);
@@ -375,6 +437,16 @@ void LevelState::InitFXManager()
 {
 
 	FXManager::getInstance()->InsertAnimations("water", m_Explosions);
+
+}
+
+
+void LevelState::InitPanels()
+{
+
+	m_pCronometro = new GameEntity(m_PanelsAnimation["cronometro"]);
+	m_pVelocimetro = new GameEntity(m_PanelsAnimation["velocimetro"]);
+	m_pExtinguished = new GameEntity(m_PanelsAnimation["extinguished"]);
 
 }
 
@@ -639,14 +711,51 @@ void LevelState::UpdateAffectors()
 void LevelState::DestroyImgManagerData()
 {
 
+	m_ImgManager.Destroy("../../resources/images/House/House01.png");
 	m_ImgManager.Destroy("../../resources/images/House/House02.png");
 	m_ImgManager.Destroy("../../resources/images/House/House03.png");
 	m_ImgManager.Destroy("../../resources/images/House/House04.png");
 	m_ImgManager.Destroy("../../resources/images/fire/fireee.png");
 	m_ImgManager.Destroy("../../resources/images/background/correjido prueba.png");
+	m_ImgManager.Destroy("../../resources/images/proyectiles/test_projectile.png");
+	m_ImgManager.Destroy("../../resources/images/proyectiles/proyectil1.png");
 	m_ImgManager.Destroy("../../resources/images/truck/TruckFordward1.png");
 	m_ImgManager.Destroy("../../resources/images/truck/TruckUp1.png");
 	m_ImgManager.Destroy("../../resources/images/truck/TruckDown1.png");
 	m_ImgManager.Destroy("../../resources/images/truck/cannon.png");
+	m_ImgManager.Destroy("../../resources/images/paneles/cronometro.png");
+	m_ImgManager.Destroy("../../resources/images/paneles/velocimetro.png");
+	m_ImgManager.Destroy("../../resources/images/paneles/extinguished.png");
+
+}
+
+
+void LevelState::InitFont()
+{
+
+	m_pFont = new sf::Font();
+	bool correctLoading = m_pFont->LoadFromFile("../../resources/fonts/calibri.ttf");
+	assert(correctLoading && "LevelState::InitFont() Font is not correctly loaded");
+	
+}
+
+
+void LevelState::InitText()
+{
+
+	m_pCronometroText = new sf::String("", *m_pFont);
+	m_pCronometroText->SetSize(30.0f);
+	m_pCronometroText->SetStyle(sf::String::Bold);
+	m_pCronometroText->SetColor(sf::Color::White);
+
+	m_pVelocimetroText = new sf::String("", *m_pFont);
+	m_pVelocimetroText->SetSize(30.0f);
+	m_pVelocimetroText->SetStyle(sf::String::Bold);
+	m_pVelocimetroText->SetColor(sf::Color::White);
+
+	m_pExtinguishedText = new sf::String("", *m_pFont);
+	m_pExtinguishedText->SetSize(30.0f);
+	m_pExtinguishedText->SetStyle(sf::String::Bold);
+	m_pExtinguishedText->SetColor(sf::Color::White);
 
 }

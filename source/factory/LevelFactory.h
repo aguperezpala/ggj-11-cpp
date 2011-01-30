@@ -45,6 +45,7 @@ public:
 	std::map<std::string, Anim> GetMapAnimation();
 	std::map<std::string, Anim> GetBulletAnimation();
 	std::map<std::string, Anim> GetExplosionAnimation();
+	std::map<std::string, Anim> GetPanelsAnimation();
 
 
 private:

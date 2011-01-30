@@ -66,6 +66,8 @@ public:
 	void setActive(bool active) {mActive = active;};
 	bool getActive(void) const {return mActive;}
 
+	void RemoveAll() { mMapper.clear(); }
+
 protected:
 	CollisionManager();
 	virtual ~CollisionManager();
