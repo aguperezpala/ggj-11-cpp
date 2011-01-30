@@ -134,7 +134,7 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	else
 	{
 	
-		m_TotalTime -= m_pScreen->GetFrameTime() * 1.5f;
+		m_TotalTime -= m_pScreen->GetFrameTime() * 3.5f;
 		CheckInput(pStateMachine);
 
 	}
