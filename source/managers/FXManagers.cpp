@@ -96,7 +96,7 @@ void FXManager::CheckEndOfAnimation(std::vector<GameEntity*>* animations)
 	for(unsigned int i=0; i<(*animations).size(); i++)
 	{
 
-		if((*animations)[i]->IsStopped())
+		if((*animations)[i]->GetCurrentFrame() == (*animations)[i]->GetAnim()->Size()-1)
 		{
 
 			(*animations)[i]->SetActivation(false);
