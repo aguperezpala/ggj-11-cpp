@@ -7,6 +7,7 @@
 
 #include "FireBulletCollisionAction.h"
 #include "FXManager.h"
+#include "LevelState.h"
 #include <SFML/System/Vector2.hpp>
 
 
@@ -40,6 +41,9 @@ void FireBulletCollisionAction::handleCollision(GameEntity *source, GameEntity *
 	// we call the FXManager and say to load an bullet explosion animation in
 	// the fire position
 	FXManager::getInstance()->PlayAnimation("water", firePosition, true);
+
+	// incrase the extinsion number
+	LevelState::Instance()->IncreaseExtinctions();
 
 	// Probably we want to do some performance improvments for the CollisionManager.
 }
