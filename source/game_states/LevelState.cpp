@@ -77,9 +77,9 @@ void LevelState::Init(sf::RenderWindow *pScreen)
 	InitCollisionManager();
 	InitFXManager();
 	BulletManager::getInstance()->setWindowsSize(m_pScreen->GetWidth(), m_pScreen->GetHeight());
-	InitPanels();
 	InitFont();
 	InitText();
+	InitPanels();
 		
 }
 
@@ -98,6 +98,7 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	m_pScreen->Draw(*m_pPlayer);
 	DrawBullets();
 	m_pScreen->Draw(*m_pCannon);
+	UpdatePanels();
 	
 	ScrollingManager::getInstance()->update(m_pScreen->GetFrameTime());
 	m_pLogicManager->Update(m_pScreen->GetFrameTime());
@@ -203,6 +204,7 @@ void LevelState::Clear()
 
 	m_Affectables.clear();
 	m_Affectors.clear();
+	m_AffectorsList.clear();
 
 	for(unsigned int i=0; i<m_Bullets.size(); i++)
 	{
@@ -212,6 +214,7 @@ void LevelState::Clear()
 
 	}
 	m_Bullets.clear();
+	m_BulletsList.clear();
 
 	for(unsigned int i=0; i<m_Explosions.size(); i++)
 	{
@@ -279,6 +282,30 @@ void LevelState::Clear()
 	}
 
 	CollisionManager::getInstance()->RemoveAll();
+
+	if(m_pCronometroPanel)
+	{
+
+		delete m_pCronometroPanel;
+		m_pCronometroPanel = 0;
+
+	}
+
+	if(m_pVelocimetroPanel)
+	{
+
+		delete m_pVelocimetroPanel;
+		m_pVelocimetroPanel = 0;
+
+	}
+	
+	if(m_pExtinguishedPanel)
+	{
+
+		delete m_pExtinguishedPanel;
+		m_pExtinguishedPanel = 0;
+
+	}
 
 
 }
@@ -445,8 +472,21 @@ void LevelState::InitPanels()
 {
 
 	m_pCronometro = new GameEntity(m_PanelsAnimation["cronometro"]);
+	sf::Vector2<float> position(0.0f, 200.0f);
+	m_pCronometroPanel = new PanelManager::Panel(m_pCronometroText, m_pCronometro, position);
+
 	m_pVelocimetro = new GameEntity(m_PanelsAnimation["velocimetro"]);
+	position.y = 320.0f;
+	m_pVelocimetroPanel = new PanelManager::Panel(m_pVelocimetroText, m_pVelocimetro, position);
+	
 	m_pExtinguished = new GameEntity(m_PanelsAnimation["extinguished"]);
+	position.y = 400.0f;
+	m_pExtinguishedPanel = new PanelManager::Panel(m_pExtinguishedText, m_pExtinguished, position);
+	
+
+	PanelManager::getInstance()->insertPanel(m_pCronometroPanel);
+	PanelManager::getInstance()->insertPanel(m_pVelocimetroPanel);
+	PanelManager::getInstance()->insertPanel(m_pExtinguishedPanel);
 
 }
 
@@ -704,6 +744,25 @@ void LevelState::UpdateAffectors()
 			m_Affectors[i]->Update();
 
 	}
+
+}
+
+
+void LevelState::UpdatePanels()
+{
+
+	PanelManager::getInstance()->update(m_pScreen);
+
+	m_pCronometroText->SetText("50");
+
+	std::stringstream ss;
+	ss << int(ScrollingManager::getInstance()->getVelocity() / -10.0f);
+	std::string str = ss.str();
+	str +=	" km";
+	m_pVelocimetroText->SetText(str.c_str());
+
+	m_pExtinguishedText->SetText("50");
+
 
 }
 

@@ -21,6 +21,7 @@
 #include "anim.hpp"
 #include <list>
 #include "FireBulletCollisionAction.h"
+#include "PanelManager.h"
 
 
 using namespace sftools;
@@ -77,6 +78,7 @@ private:
 
 	void UpdateAffectables();
 	void UpdateAffectors();
+	void UpdatePanels();
 	
 	void DestroyImgManagerData();
 
@@ -131,6 +133,10 @@ private:
 	GameEntity* m_pCronometro;
 	GameEntity* m_pVelocimetro;
 	GameEntity* m_pExtinguished;
+
+	PanelManager::Panel* m_pCronometroPanel;
+	PanelManager::Panel* m_pVelocimetroPanel;
+	PanelManager::Panel* m_pExtinguishedPanel;
 
 };
 
