@@ -43,6 +43,8 @@ public:
 	std::map<std::string, Anim> GetAffectablesAnimation();
 	std::map<std::string, Anim> GetAffectorsAnimation();
 	std::map<std::string, Anim> GetMapAnimation();
+	std::map<std::string, Anim> GetBulletAnimation();
+	std::map<std::string, Anim> GetExplosionAnimation();
 
 
 private:

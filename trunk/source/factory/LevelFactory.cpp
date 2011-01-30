@@ -108,6 +108,30 @@ std::map<std::string, Anim> LevelFactory::GetMapAnimation()
 }
 
 
+std::map<std::string, Anim> LevelFactory::GetBulletAnimation()
+{
+
+	std::map<std::string, Anim> animMap;
+	m_ImgManager->Load("../../resources/images/proyectiles/bombucha.png");
+	animMap.insert(std::pair<std::string, Anim>("bullet", GetAnimFromImage((*m_ImgManager)["../../resources/images/proyectiles/bombucha.png"], 100.0f, 150.0f, 1)));
+
+	return animMap;
+
+}
+
+
+std::map<std::string, Anim> LevelFactory::GetExplosionAnimation()
+{
+
+	std::map<std::string, Anim> animMap;
+	m_ImgManager->Load("../../resources/images/proyectiles/proyectil1.png");
+	animMap.insert(std::pair<std::string, Anim>("explosion", GetAnimFromImage((*m_ImgManager)["../../resources/images/proyectiles/proyectil1.png"], 59.0f, 59.0f, 1)));
+
+	return animMap;
+
+}
+
+
 Anim LevelFactory::GetPlayerStraightAnimation()
 {
 

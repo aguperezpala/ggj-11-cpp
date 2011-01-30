@@ -32,6 +32,7 @@ class GameEntity;
 class Environment;
 class EnvironmentManager;
 class LogicManager;
+class CollisionManager;
 
 
 class LevelState : public State
@@ -53,6 +54,8 @@ private:
 
 	void InitPlayer();
 	void InitCannon();
+	void InitBullets();
+	void InitExplosions();
 	void InitEnvironmentManager();
 	void InitEnvironment();
 	void InitScrollingManager();
@@ -65,10 +68,12 @@ private:
 
 	void DrawAffectables();
 	void DrawAffectors();
+	void DrawBullets();
+	void DrawExplosions();
 
 	void UpdateAffectables();
 	void UpdateAffectors();
-
+	
 	void DestroyImgManagerData();
 
 	sf::RenderWindow* m_pScreen;
@@ -79,6 +84,8 @@ private:
 	std::map<std::string, Anim> m_AffectablesAnimation;
 	std::map<std::string, Anim> m_AffectorsAnimation;
 	std::map<std::string, Anim> m_MapAnimation;
+	std::map<std::string, Anim> m_BulletAnimation;
+	std::map<std::string, Anim> m_ExplosionAnimation;
 
 	GameEntity* m_pPlayer;
 
@@ -96,6 +103,12 @@ private:
 
 	std::vector<GameEntity*> m_Affectables;
 	std::vector<GameEntity*> m_Affectors;
+
+	std::vector<GameEntity*> m_Bullets;
+	std::vector<GameEntity*> m_Explosions;
+
+	float m_DeltaTime;    // Delta time to wait before perform a shoot.
+	float m_CurrentDelta; // Current time to wait before perform a shoot.
 
 };
 
