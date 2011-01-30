@@ -254,6 +254,7 @@ void LevelState::InitBullets()
 
 		GameEntity* entity = new GameEntity(m_BulletAnimation["bullet"]);
 		m_Bullets.push_back(entity);
+		m_BulletsList.push_back(entity);
 
 	}
 
@@ -349,6 +350,7 @@ void LevelState::InitLogicManager()
 		dummy->Play();
 		dummy->SetLoop(true);
 		m_Affectors.push_back(dummy);
+		m_AffectorsList.push_back(dummy);
 		m_pLogicManager->AddAffector(dummy);
 
 	}
