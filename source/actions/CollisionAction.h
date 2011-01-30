@@ -16,7 +16,7 @@
 class CollisionAction {
 public:
 	CollisionAction() {};
-	virtual ~CollisionAction() = 0;
+	virtual ~CollisionAction(){};
 
 	/* This is the function to be reimplemented */
 	virtual void handleCollision(GameEntity *source, GameEntity *target) = 0;

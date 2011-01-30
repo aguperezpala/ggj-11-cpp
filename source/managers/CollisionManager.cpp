@@ -92,8 +92,9 @@ void CollisionManager::update(float dTime)
 				if(!(*targetIt)->IsActive())
 					continue;
 
-				if(Collision::BoundingBoxTest(*(*eIt), **targetIt)) {
+				if(Collision::BoundingBoxTest(*(*eIt), *(*targetIt))) {
 					// there are a collision!
+					LOG("COLLISION!!!");
 					(*it).action->handleCollision((*eIt), *targetIt);
 				}
 			}
