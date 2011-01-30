@@ -16,6 +16,7 @@
 #include "FXManager.h"
 #include "GameEntity.h"
 #include "ScrollingManager.h"
+#include <cassert>
 
 
 // Default constructor
@@ -112,11 +113,12 @@ void FXManager::CheckEndOfAnimation(std::vector<GameEntity*>* animations)
 void FXManager::InsertSound(const std::string &path)
 {
 	
-	sound sn;
-	assert(sn.sBuffer.LoadFromFile(path.c_str()));
-	sn.sSound.SetBuffer(sn.sBuffer);
+	sf::Sound sound;
+	sf::SoundBuffer buffer;
+	assert(buffer.LoadFromFile(path.c_str()));
+	sound.SetBuffer(buffer);
 
-	m_SoundsMap.insert(std::pair<std::string, sound> (path, sn));
+	m_SoundsMap.insert(std::pair<std::string, sf::Sound> (path, sound));
 
 }
 
@@ -124,6 +126,14 @@ void FXManager::InsertSound(const std::string &path)
 void FXManager::PlaySound(const std::string& path)
 {
 
+	m_SoundsMap[path].Play();
 
+}
+
+
+bool FXManager::IsPlaying(const std::string& path)
+{
+
+	return m_SoundsMap[path].Playing == sf::Sound::Playing;
 
 }

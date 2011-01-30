@@ -43,6 +43,8 @@ public:
 
 	void PlayAnimation(const std::string& type, sf::Vector2<float> position, bool isScrolleable);
 	void PlaySound(const std::string& path);
+
+	bool IsPlaying(const std::string& path);
 	
 	void update(float frameTime);
 
@@ -51,20 +53,12 @@ public:
 	
 private:
 
-	struct sound
-	{
-		
-		sf::Sound sSound;
-		sf::SoundBuffer sBuffer;
-
-	};
-
 	FXManager();
 
 	void CheckEndOfAnimation(std::vector<GameEntity*>* animations);
 
 	std::map<std::string, std::vector<GameEntity*> > m_AnimationsMap;
-	std::map<std::string, sound> m_SoundsMap;
+	std::map<std::string, sf::Sound> m_SoundsMap;
 
 	std::vector<GameEntity*> m_PlayingScrolleable;
 	std::vector<GameEntity*> m_PlayingNoScrolleable;

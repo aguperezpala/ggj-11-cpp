@@ -114,7 +114,7 @@ void InformationState::InitFont()
 {
 
 	m_pFont = new sf::Font();
-	bool correctLoading = m_pFont->LoadFromFile("../../resources/fonts/calibri.ttf");
+	bool correctLoading = m_pFont->LoadFromFile("../../resources/fonts/Autumn__.ttf");
 	assert(correctLoading && "GameExplanationState::InitFont() Font is not correctly loaded");
 
 
