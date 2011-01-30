@@ -32,7 +32,6 @@ class GameEntity;
 class Environment;
 class EnvironmentManager;
 class LogicManager;
-class CollisionManager;
 
 
 class LevelState : public State

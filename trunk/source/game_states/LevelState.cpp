@@ -23,6 +23,7 @@
 #include "LogicManager.h"
 #include "MainMenuState.h"
 #include "CollisionManager.h"
+#include "BulletManager.h"
 #include <cassert>
 #include <iostream>
 #include <sstream>
@@ -71,6 +72,8 @@ void LevelState::Init(sf::RenderWindow *pScreen)
 	InitEnvironmentManager();
 	InitScrollingManager();
 	InitLogicManager();
+	BulletManager::getInstance()->setWindowsSize(m_pScreen->GetWidth(), m_pScreen->GetHeight());
+
 	
 }
 
@@ -85,9 +88,9 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	m_pScreen->Draw(*m_pMap2);
 	DrawAffectables();
 	DrawAffectors();
-	DrawBullets();
 	DrawExplosions();
 	m_pScreen->Draw(*m_pPlayer);
+	DrawBullets();
 	m_pScreen->Draw(*m_pCannon);
 	
 	ScrollingManager::getInstance()->update(m_pScreen->GetFrameTime());
@@ -98,6 +101,7 @@ void LevelState::Execute(StateMachine* pStateMachine)
 	m_pPlayer->Update();
 	m_pCannon->Update();
 	CollisionManager::getInstance()->update(m_pScreen->GetFrameTime());
+	BulletManager::getInstance()->update(m_pScreen->GetFrameTime());
 	
 	// Set the same coordinates as player
 	m_pCannon->SetX(m_pPlayer->GetPosition().x+40.0f);
@@ -252,6 +256,8 @@ void LevelState::InitBullets()
 		m_Bullets.push_back(entity);
 
 	}
+
+
 
 }
 
@@ -455,10 +461,17 @@ void LevelState::CheckKeyboard(StateMachine* pStateMachine)
 						sf::Vector2<float> cannonCenterPos = m_pCannon->GetCenterCordinates();
 	
 						sf::Vector2<float> bulletDirection = CannonHelper::getVectorDirection(cannonCenterPos, mousePos);
-						sf::Vector2<float> newCannonPos = CannonHelper::getCannonHole(m_pCannon->GetPosition(), m_pCannon->GetCurrentFrame(), m_pCannon->GetHeight()/2.3f);
+						sf::Vector2<float> newCannonPos = CannonHelper::getCannonHole(cannonCenterPos, m_pCannon->GetCurrentFrame(), m_pCannon->GetHeight()/2.3f);
 		
+						// Set the source position of the bullet
+						m_Bullets[i]->SetX(newCannonPos.x);
+						m_Bullets[i]->SetY(newCannonPos.y);
+
+						BulletManager::getInstance()->addNewBullet(m_Bullets[i], bulletDirection*1000.0f);
+
 						// Restore the delta time
 						m_CurrentDelta = m_DeltaTime;
+						break;
 					}
 
 				}
