@@ -15,7 +15,8 @@
 // here are the num of sprites used to representate the 365 degrees
 // The sprite must start in the 0 X Axis and rotate in the opposite clock direction.
 #ifndef M_PI
-#define M_PI                3.14f
+#define M_PI                3.14159265358979f
+
 #endif
 #define CH_NUM_SPRITES		36
 #define CH_DELTA_ANGLE		(2*M_PI/CH_NUM_SPRITES)

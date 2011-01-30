@@ -69,16 +69,11 @@ std::map<std::string, Anim> LevelFactory::GetAffectablesAnimation()
 	m_ImgManager->Load("../../resources/images/House/House02.png");
 	m_ImgManager->Load("../../resources/images/House/House03.png");
 	m_ImgManager->Load("../../resources/images/House/House04.png");
-	m_ImgManager->Load("../../resources/images/House/House05.png");
-	m_ImgManager->Load("../../resources/images/House/House06.png");
-	m_ImgManager->Load("../../resources/images/House/House07.png");
-	
+		
 	animMap.insert(std::pair<std::string, Anim> ("house1", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House02.png"], 122.0f, 110.0f, 1)));
 	animMap.insert(std::pair<std::string, Anim>("house2", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House03.png"], 122.0f, 110.0f, 1)));
 	animMap.insert(std::pair<std::string, Anim>("house3", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House04.png"], 122.0f, 110.0f, 1)));
-	animMap.insert(std::pair<std::string, Anim>("house4", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House05.png"], 122.0f, 110.0f, 1)));
-	animMap.insert(std::pair<std::string, Anim>("house5", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House06.png"], 122.0f, 110.0f, 1)));
-	animMap.insert(std::pair<std::string, Anim>("house6", GetAnimFromImage((*m_ImgManager)["../../resources/images/House/House07.png"], 122.0f, 110.0f, 1)));
+	
 
 	return animMap;
 
@@ -90,8 +85,10 @@ std::map<std::string, Anim> LevelFactory::GetAffectorsAnimation()
 
 	std::map<std::string, Anim> animMap;
 
-	m_ImgManager->Load("../../resources/images/fire2/1.png");
-	animMap.insert(std::pair<std::string, Anim>("fire", GetAnimFromImage((*m_ImgManager)["../../resources/images/fire2/1.png"], 82.0f, 88.0f, 1)));
+	m_ImgManager->Load("../../resources/images/fire/fireee.png");
+	animMap.insert(std::pair<std::string, Anim>("fire", GetAnimFromImage((*m_ImgManager)["../../resources/images/fire/fireee.png"], 82.0f, 88.0f, 2)));
+	//m_ImgManager->Load("../../resources/images/fire2/2.png");
+	//animMap.insert(std::pair<std::string, Anim>("fire2", GetAnimFromImage((*m_ImgManager)["../../resources/images/fire2/2.png"], 82.0f, 88.0f, 1)));
 
 	return animMap;
 
@@ -102,9 +99,9 @@ std::map<std::string, Anim> LevelFactory::GetMapAnimation()
 {
 
 	std::map<std::string, Anim> animMap;
-	m_ImgManager->Load("../../resources/images/background/bkex.png");
-	animMap.insert(std::pair<std::string, Anim>("map1", GetAnimFromImage((*m_ImgManager)["../../resources/images/background/bkex.png"], 1024.0f, 768.0f, 1)));
-	animMap.insert(std::pair<std::string, Anim>("map2", GetAnimFromImage((*m_ImgManager)["../../resources/images/background/bkex.png"], 1024.0f, 768.0f, 1)));
+	m_ImgManager->Load("../../resources/images/background/correjido prueba.png");
+	animMap.insert(std::pair<std::string, Anim>("map1", GetAnimFromImage((*m_ImgManager)["../../resources/images/background/correjido prueba.png"], 1024.0f, 768.0f, 1)));
+	animMap.insert(std::pair<std::string, Anim>("map2", GetAnimFromImage((*m_ImgManager)["../../resources/images/background/correjido prueba.png"], 1024.0f, 768.0f, 1)));
 
 	return animMap;
 
@@ -123,8 +120,8 @@ Anim LevelFactory::GetPlayerStraightAnimation()
 Anim LevelFactory::GetPlayerUpAnimation()
 {
 
-	m_ImgManager->Load("../../resources/images/truck/TruckUp.png");
-	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/TruckUp.png"], 180.0f, 115.0f, 1);
+	m_ImgManager->Load("../../resources/images/truck/TruckUp1.png");
+	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/TruckUp1.png"], 180.0f, 115.0f, 1);
 
 }
 
@@ -132,8 +129,8 @@ Anim LevelFactory::GetPlayerUpAnimation()
 Anim LevelFactory::GetPlayerDownAnimation()
 {
 
-	m_ImgManager->Load("../../resources/images/truck/truckdown.png");
-	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/truckdown.png"], 180.0f, 115.0f, 1);
+	m_ImgManager->Load("../../resources/images/truck/TruckDown1.png");
+	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/TruckDown1.png"], 180.0f, 115.0f, 1);
 
 }
 
@@ -141,8 +138,8 @@ Anim LevelFactory::GetPlayerDownAnimation()
 Anim LevelFactory::GetPlayerWeaponAnimation()
 {
 
-	m_ImgManager->Load("../../resources/images/truck/cannon03.png");
-	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/cannon03.png"], 180.0f, 115.0f, 1);
+	m_ImgManager->Load("../../resources/images/truck/cannon.png");
+	return GetAnimFromImage((*m_ImgManager)["../../resources/images/truck/cannon.png"], 97.0f, 88.0f, 36);
 
 }
 

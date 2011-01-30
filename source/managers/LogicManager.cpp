@@ -21,11 +21,10 @@
 
 
 // Default constructor
-LogicManager::LogicManager(float windowHeight, float windowWidth) : m_TimeOutToPlaceAffectable(1.0f), m_TimeOutToPlaceAffector(3.0f), m_WindowHeight(windowHeight), m_WindowWidth(windowWidth)
+LogicManager::LogicManager(float windowWidth, float windowHeight) : m_TimeOutToPlaceAffectable(0.5f), m_WindowHeight(windowHeight), m_WindowWidth(windowWidth)
 {
 
 	m_CurrentAffectableTimeOut = m_TimeOutToPlaceAffectable;
-	m_CurrentAffectorTimeOut = m_TimeOutToPlaceAffector;
 
 	// We must set a seed for the SFML's randomizer
 	sf::Randomizer::SetSeed(10);
@@ -40,14 +39,10 @@ LogicManager::~LogicManager() {}
 void LogicManager::TweakTimeOuts(float offset)
 {
 
-	m_TimeOutToPlaceAffectable += offset;
-	m_TimeOutToPlaceAffector += offset;
-
+	m_TimeOutToPlaceAffectable *= offset;
+	
 	if(m_TimeOutToPlaceAffectable < m_CurrentAffectableTimeOut)
 		m_CurrentAffectableTimeOut = m_TimeOutToPlaceAffectable;
-
-	if(m_TimeOutToPlaceAffector < m_CurrentAffectorTimeOut)
-		m_CurrentAffectorTimeOut = m_TimeOutToPlaceAffector;
 
 }
 
@@ -58,7 +53,8 @@ void LogicManager::AddAffectable(GameEntity *pEntity)
 	assert(pEntity && "LogicManager::AddAffectable(GameEntity *pEntity): Trying to initialize to NULL entity.");
 
 	m_AffectableEntities.push_back(pEntity);
-	m_IsAffected.push_back(false);
+
+	ScrollingManager::getInstance()->insertEntity(pEntity);
 
 }
 
@@ -70,31 +66,15 @@ void LogicManager::AddAffector(GameEntity *pEntity)
 
 	m_AffectorEntities.push_back(pEntity);
 
+	ScrollingManager::getInstance()->insertEntity(pEntity);
+
 }
 
 
 void LogicManager::Update(float frameTime)
 {
 
-	UpdateAffected();
 	TryToPlaceAffectable(frameTime);
-	TryToPlaceAffector(frameTime);
-
-}
-
-
-void LogicManager::UpdateAffected()
-{
-
-
-	for(unsigned int i=0; i<m_AffectableEntities.size(); i++)
-	{
-
-		// If the entity is not active, then it is not affected.
-		if(!m_AffectableEntities[i]->IsActive())
-			m_IsAffected[i] = false;
-
-	}
 
 }
 
@@ -120,13 +100,16 @@ void LogicManager::TryToPlaceAffectable(float frameTime)
 
 				// Get a Y coordinate to place the affectable entity based on probability.
 
-				if(sf::Randomizer::Random(0.0f, 10.0f) < 5.0f == 0)
-					m_AffectableEntities[i]->SetY(0.0f);
+				if(sf::Randomizer::Random(0.0f, 10.0f) < 5.0f)
+					m_AffectableEntities[i]->SetY(-15.0f);
 				else
-					m_AffectableEntities[i]->SetY(650.0f);
+					m_AffectableEntities[i]->SetY(600.0f);
 				
 				m_AffectableEntities[i]->SetActivation(true);
 
+				// If we can affect the entity then we update its condition
+				TryToPlaceAnAffector(m_AffectableEntities[i]);
+				
 				// Reset the time out
 				m_CurrentAffectableTimeOut = m_TimeOutToPlaceAffectable;
 				break;
@@ -140,17 +123,14 @@ void LogicManager::TryToPlaceAffectable(float frameTime)
 }
 
 
-void LogicManager::TryToPlaceAffector(float frameTime)
+void LogicManager::TryToPlaceAnAffector(GameEntity* affectable)
 {
 
-	m_CurrentAffectorTimeOut -= frameTime;
-
 	// Check if is time to put a new affectable entity
-	if(m_CurrentAffectorTimeOut <= 0.0f)
+	if(sf::Randomizer::Random(0.0f, 10.0f) > 7.0f)
 	{
 
 		// Check if we have an inactive affector.
-		GameEntity* affector = 0;
 		for(unsigned int j=0; j<m_AffectorEntities.size(); j++)
 		{
 
@@ -158,39 +138,11 @@ void LogicManager::TryToPlaceAffector(float frameTime)
 			if(!m_AffectorEntities[j]->IsActive())
 			{
 			
-				affector = m_AffectorEntities[j];
+				m_AffectorEntities[j]->SetX(affectable->GetPosition().x+30.0f);
+				m_AffectorEntities[j]->SetY(affectable->GetPosition().y);
+				m_AffectorEntities[j]->SetActivation(true);
+
 				break;
-
-			}
-
-		}
-
-		// If we have an affector we must check if we can place it on an affectable.
-		if(affector)
-		{
-
-			// Check if we have an active entity to place an affector on it.
-			for(unsigned int i=0; i<m_AffectableEntities.size(); i++)
-			{
-
-				// We found an active and not affected entity!
-				if(m_AffectableEntities[i]->IsActive() && m_IsAffected[i] == false)
-				{
-
-					affector->SetX(m_AffectableEntities[i]->GetPosition().x);
-					affector->SetY(m_AffectableEntities[i]->GetPosition().y);
-
-					affector->SetActivation(true);
-
-					// Reset the time out
-					m_CurrentAffectorTimeOut = m_TimeOutToPlaceAffector;
-
-					// This entity is now affected
-					m_IsAffected[i] = true;
-
-					break;
-
-				}
 
 			}
 
