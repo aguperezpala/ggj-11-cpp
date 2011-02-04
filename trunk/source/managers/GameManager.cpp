@@ -98,7 +98,7 @@ void GameManager::Run()
 
 		m_pStateMachine->Update();
 
-		DrawFPS();
+		//DrawFPS();
 
 		// Display window contents on screen
 		m_pScreen->Display();
